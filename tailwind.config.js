@@ -173,7 +173,7 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        'auth-background': "url('/svg/auth-background.svg')",
+        'auth-background': "url('/assets/auth-background.svg')",
       },
       colors: {
         "primary-500": "#877EFF",
