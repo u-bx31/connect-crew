@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const TopBar = () => {
   return (
-    <nav className="topbar bg-sky-800">
+    <nav className="topbar">
       <Link href="/" className="flex items-center gap-4">
         <Image alt="logo" src={"/assets/vector.svg"} width={50} height={50} />
         <h1 className="text-heading3-bold text-light-1 max-xs:hidden">
