@@ -20,7 +20,7 @@ const Onboarding = async() => {
       <p className="mt-3 text-base-regular text-light-1">
         Complete your profile now to join ConnectCrew
       </p>
-      <section className="mt-9 bg-dark-2 p-10">
+      <section className="mt-9 bg-white rounded-md p-10">
         <AccountProfile user={userData} btnTitle='continue' />
       </section>
     </main>

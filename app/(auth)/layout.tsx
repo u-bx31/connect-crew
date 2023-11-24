@@ -23,7 +23,7 @@ export default function RootLayout({
           <link rel="icon" href="/favicon.ico" sizes="any" />
         </Head>
         <body
-          className={`${inter.className} bg-auth-background bg-cover bg-center bg-no-repeat w-100 h-screen`}
+          className={`${inter.className} bg-auth-background bg-cover bg-center bg-gray-950 bg-no-repeat w-100 `}
         >
           {children}
         </body>

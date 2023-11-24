@@ -114,13 +114,6 @@ module.exports = {
           fontWeight: "600",
         },
       ],
-      "base1-semibold": [
-        "16px",
-        {
-          lineHeight: "140%",
-          fontWeight: "600",
-        },
-      ],
       "small-regular": [
         "14px",
         {
@@ -172,6 +165,9 @@ module.exports = {
       ],
     },
     extend: {
+      backgroundImage: {
+        'auth-background': "url('/assets/auth-background.svg')",
+      },
       colors: {
         "primary-500": "#004def",
         "secondary-500": "#FFB620",
