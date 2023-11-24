@@ -172,11 +172,8 @@ module.exports = {
       ],
     },
     extend: {
-      backgroundImage: {
-        'auth-background': "url('/assets/auth-background.svg')",
-      },
       colors: {
-        "primary-500": "#3b82f6",
+        "primary-500": "#004def",
         "secondary-500": "#FFB620",
         "logout-btn": "#FF5A5A",
         "navbar-menu": "rgba(16, 16, 18, 0.6)",
