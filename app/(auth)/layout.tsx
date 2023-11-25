@@ -22,7 +22,7 @@ export default function RootLayout({
         <Head>
           <link rel="icon" href="/favicon.ico" sizes="any" />
         </Head>
-        <body
+        <body suppressHydrationWarning={true}
           className={`${inter.className} bg-auth-background bg-cover bg-center bg-gray-950 bg-no-repeat w-100 `}
         >
           {children}
