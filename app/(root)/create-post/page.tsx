@@ -12,7 +12,7 @@ async function page() {
 	return (
 		<>
 			<h1 className="head-text">Create Post </h1>
-			<CreatePost userId={user?.id} />
+			<CreatePost userId={userInfo._id} />
 		</>
 	);
 }

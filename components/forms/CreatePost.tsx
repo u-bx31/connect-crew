@@ -15,7 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { PostValidation } from "@/lib/validations/post";
+import { ThreadValidation } from "@/lib/validations/thread";
+import { createNewPost } from "@/lib/actions/thread.actions";
 
 interface Props {
 	userId: string;
@@ -24,16 +25,22 @@ const CreatePost = ({ userId }: Props) => {
 	const router = useRouter();
 	const pathname = usePathname();
 
-	const form = useForm<z.infer<typeof PostValidation>>({
-		resolver: zodResolver(PostValidation),
+	const form = useForm<z.infer<typeof ThreadValidation>>({
+		resolver: zodResolver(ThreadValidation),
 		defaultValues: {
-			post: "",
-			createdBy: userId,
+			thread: "",
+			accountId: userId,
 		},
 	});
 
-	const onSubmit = async (values: z.infer<typeof PostValidation>) => {
+	const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
 
+    await createNewPost({
+      author : userId,
+      text : values.thread,
+      crewId : null,
+      path : pathname,
+    })
 
 		router.push("/");
 	};
@@ -44,7 +51,7 @@ const CreatePost = ({ userId }: Props) => {
 				onSubmit={form.handleSubmit(onSubmit)}>
 				<FormField
 					control={form.control}
-					name="post"
+					name="thread"
 					render={({ field }) => (
 						<FormItem className="flex w-full flex-col gap-3">
 							<FormLabel className="text-base-semibold text-light-2">
