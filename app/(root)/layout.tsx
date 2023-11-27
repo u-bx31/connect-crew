@@ -26,7 +26,7 @@ export default function RootLayout({
         <Head>
           <link rel="icon" href="/favicon.ico" sizes="any" />
         </Head>
-        <body className={inter.className}>
+        <body className={inter.className} suppressHydrationWarning={true}>
           <TopBar />
           <main className="flex flex-row">
             <LeftSideBar />

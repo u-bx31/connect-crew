@@ -139,16 +139,17 @@
 }
 
 /* Account Profile  */
+
 .account-form_image-label {
-  @apply flex h-24 w-24 items-center justify-center rounded-full bg-dark-4 !important;
+  @apply cursor-pointer flex h-24 w-24 items-center bg-gray-100 justify-center rounded-full !important;
 }
 
 .account-form_image-input {
-  @apply cursor-pointer border-none bg-transparent outline-none file:text-blue-400 !important;
+  @apply cursor-pointer file:text-blue-400 !important;
 }
 
 .account-form_input {
-  @apply border border-dark-4 bg-dark-3 text-light-1 !important;
+  @apply p-4 text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 focus-visible:ring-transparent !important;
 }
 
 /* Comment Form */

@@ -114,13 +114,6 @@ module.exports = {
           fontWeight: "600",
         },
       ],
-      "base1-semibold": [
-        "16px",
-        {
-          lineHeight: "140%",
-          fontWeight: "600",
-        },
-      ],
       "small-regular": [
         "14px",
         {
@@ -176,7 +169,7 @@ module.exports = {
         'auth-background': "url('/assets/auth-background.svg')",
       },
       colors: {
-        "primary-500": "#3b82f6",
+        "primary-500": "#004def",
         "secondary-500": "#FFB620",
         "logout-btn": "#FF5A5A",
         "navbar-menu": "rgba(16, 16, 18, 0.6)",
