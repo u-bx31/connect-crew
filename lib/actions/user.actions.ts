@@ -13,6 +13,16 @@ interface props {
 	path: string;
 }
 
+export async function fetchUser(userId: string) {
+	try {
+		connectToDB();
+
+		return await User.findOne({id:userId});
+	} catch (error: any) {
+		throw new Error(`Failed to create/update user :${error.message}`);
+	}
+}
+
 export async function UpdateUser({
 	userId,
 	username,
@@ -22,7 +32,7 @@ export async function UpdateUser({
 	path,
 }: props): Promise<void> {
 	try {
-    connectToDB();
+		connectToDB();
 		await User.findOneAndUpdate(
 			{ id: userId },
 			{
