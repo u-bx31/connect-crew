@@ -10,6 +10,45 @@ interface Props {
 	crewId: string | null;
 	path: string;
 }
+export async function fetchThreadById(id:string) {
+	try {
+		connectToDB();
+
+		//do crew section
+		const thread = Thread.findById(id).populate({
+			path : 'author',
+			model : User,
+			select : '_id id image name'
+		}).populate(
+			{
+				path : 'children',
+				populate : [
+					{
+						path: 'author',
+						model : User,
+						select : '_id id name image parentId'
+					},
+					{
+						path: 'children',
+						model : Thread,
+						populate : {
+							path : 'author',
+							model : User,
+							select : '_id id name image parentId'
+						}
+					}
+				]
+			},
+		).exec();
+
+		return thread;
+
+	} catch (error: any) {
+		throw new Error(`Failed to create/update thread :${error.message}`);
+	}
+	
+}
+
 export async function fetchPosts(pageNumber = 1, pageSize = 20) {
 	try {
 		connectToDB();
