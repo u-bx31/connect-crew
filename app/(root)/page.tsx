@@ -11,7 +11,7 @@ export default async function Home() {
 			<h1 className="text-white">Home</h1>
 			<section className="mt-9 flex flex-col gap-10">
 				{response.posts.length == 0 ? (
-					<p className="no-result">No posts found...</p>
+					<p className="no-result">No posts found 😶</p>
 				) : (
 					<>
 						{response.posts.map((post) => {
