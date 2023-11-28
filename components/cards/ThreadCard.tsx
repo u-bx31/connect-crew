@@ -22,7 +22,7 @@ interface Props {
 			image: string;
 		};
 	}[];
-	isComments?: boolean;
+	isComment?: boolean;
 }
 
 const ThreadCard = ({
@@ -34,6 +34,7 @@ const ThreadCard = ({
 	author,
 	createdAt,
 	parentId,
+	isComment
 }: Props) => {
 	return (
 		<article className="flex flex-col w-full rounded-md bg-dark-2 p-7">
