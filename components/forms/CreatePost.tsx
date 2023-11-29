@@ -16,7 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ThreadValidation } from "@/lib/validations/thread";
-import { createNewPost } from "@/lib/actions/thread.actions";
+import { createPost } from "@/lib/actions/thread.actions";
 
 interface Props {
 	userId: string;
@@ -35,7 +35,7 @@ const CreatePost = ({ userId }: Props) => {
 
 	const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
 
-    await createNewPost({
+    await createPost({
       author : userId,
       text : values.thread,
       crewId : null,
