@@ -144,6 +144,6 @@ const ConnectionToDb = () => {
 	try {
 		return connectToDB();
 	} catch (error: any) {
-		throw new Error(`Failed to create/update thread :${error.message}`);
+		throw new Error(`Failed to connect to mongoDB :${error.message}`);
 	}
 };
