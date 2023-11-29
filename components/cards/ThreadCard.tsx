@@ -24,6 +24,7 @@ interface Props {
 		};
 	}[];
 	isComment?: boolean;
+	isCurrentThread?: boolean;
 }
 
 const ThreadCard = ({
@@ -35,10 +36,14 @@ const ThreadCard = ({
 	author,
 	createdAt,
 	parentId,
-	isComment
+	isComment,
+	isCurrentThread,
 }: Props) => {
 	return (
-		<article className={`flex flex-col w-full rounded-md ${isComment ? 'px-0 xs:px-7' : 'bg-dark-2 p-7'}`}>
+		<article
+			className={`flex flex-col w-full rounded-md ${
+				isComment ? "px-0 xs:px-7" : "bg-dark-2 p-7"
+			}`}>
 			<div className="flex items-start justify-between">
 				<div className="flex w-full flex-1 flex-row gap-4">
 					<div className="flex flex-col items-center">
@@ -59,7 +64,9 @@ const ThreadCard = ({
 							<h4 className="cursor-pointer text-base-semibold text-light-1">
 								{author.name}
 							</h4>
-							<p className="text-small-regular text-gray-400">{formatDateString(createdAt)}</p>
+							<p className="text-small-regular text-gray-400">
+								{formatDateString(createdAt)}
+							</p>
 						</Link>
 
 						<p className="mt-2 text-small-regular text-light-2">{content}</p>
@@ -74,13 +81,15 @@ const ThreadCard = ({
 									className="cursor-pointer object-contain"
 								/>
 								<Link href={`/thread/${id}`}>
-									<Image
-										src="/assets/reply.svg"
-										alt="heart"
-										width={24}
-										height={24}
-										className="cursor-pointer object-contain"
-									/>
+									{!isCurrentThread && (
+										<Image
+											src="/assets/reply.svg"
+											alt="heart"
+											width={24}
+											height={24}
+											className="cursor-pointer object-contain"
+										/>
+									)}
 								</Link>
 								<Image
 									src="/assets/repost.svg"
@@ -99,12 +108,12 @@ const ThreadCard = ({
 							</div>
 						</div>
 						{isComment && comments.length > 0 && (
-                <Link href={`/thread/${id}`}>
-                  <p className='mt-1 text-subtle-medium text-gray-1'>
-                    {comments.length} repl{comments.length > 1 ? "ies" : "y"}
-                  </p>
-                </Link>
-              )}
+							<Link href={`/thread/${id}`}>
+								<p className="mt-1 text-subtle-medium text-gray-1">
+									{comments.length} repl{comments.length > 1 ? "ies" : "y"}
+								</p>
+							</Link>
+						)}
 					</div>
 				</div>
 			</div>

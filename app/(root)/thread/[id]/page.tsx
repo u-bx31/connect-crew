@@ -37,6 +37,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 					createdAt={thread.createdAt}
 					comments={thread.children}
 					parentId={thread.parentId}
+					isCurrentThread
 				/>
 			</div>
 			<div className=" mt-7">
