@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import User from "../models/user.model";
 import { connectToDB } from "../mongoose";
+import Thread from "../models/thread.model";
 
 interface props {
 	userId: string;
@@ -14,12 +15,11 @@ interface props {
 }
 
 export async function fetchUser(userId: string) {
+	ConnectionToDb()
 	try {
-		connectToDB();
-
 		return await User.findOne({id:userId});
 	} catch (error: any) {
-		throw new Error(`Failed to create/update user :${error.message}`);
+		throw new Error(`Failed to fetch user :${error.message}`);
 	}
 }
 
@@ -31,8 +31,8 @@ export async function UpdateUser({
 	image,
 	path,
 }: props): Promise<void> {
+	ConnectionToDb()
 	try {
-		connectToDB();
 		await User.findOneAndUpdate(
 			{ id: userId },
 			{
@@ -51,3 +51,37 @@ export async function UpdateUser({
 		throw new Error(`Failed to create/update user :${error.message}`);
 	}
 }
+
+export async function fetchUserPosts(userId:string) {
+	connectToDB()
+
+	try {
+		const threads = await User.findOne({id : userId}).populate({
+			path : 'threads',
+			model : Thread,
+			populate : {
+				path : 'children',
+				model : Thread,
+				populate : {
+					path : 'author',
+					model : User,
+					select : 'name image id',
+				}
+			}
+		})
+		return threads;
+	} catch (error:any) {
+		throw new Error('Failed to fetch user Posts')
+	}
+
+
+}
+
+
+const ConnectionToDb = () => {
+	try {
+		return connectToDB();
+	} catch (error: any) {
+		throw new Error(`Failed to connect to mongoDB :${error.message}`);
+	}
+};
