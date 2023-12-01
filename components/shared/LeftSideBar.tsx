@@ -7,7 +7,6 @@ import { SignOutButton, SignedIn, useAuth } from "@clerk/nextjs";
 const LeftSideBar = ({ activity }: { activity: number }) => {
 	const router = useRouter();
 	const pathname = usePathname();
-
 	const { userId } = useAuth();
 	return (
 		<section className="custom-scrollbar leftsidebar">
