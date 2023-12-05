@@ -2,6 +2,7 @@
 const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ["mongoose"],
+    webpackBuildWorker: true
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
