@@ -11,7 +11,7 @@ const TopBar = () => {
   return (
     <nav className="topbar">
       <Link href="/" className="flex items-center gap-4">
-        <Image alt="logo" src="/assets/vector.svg" width={50} height={50} />
+        <Image alt="logo" src="/logo.svg" width={50} height={50} />
         <h1 className="text-heading3-bold text-light-1 max-xs:hidden">
           connectCrew
         </h1>

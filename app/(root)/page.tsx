@@ -26,7 +26,7 @@ export default async function Home() {
 								<ThreadCard
 									key={post._id}
 									id={post._id}
-									currentUser={user?.id || ""}
+									currentUser={user?.id}
 									content={post.text}
 									crew={post.crew}
 									author={post.author}
