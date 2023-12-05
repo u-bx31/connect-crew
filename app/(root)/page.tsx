@@ -6,12 +6,9 @@ import { redirect } from "next/navigation";
 
 export default async function Home() {
 	const response = await fetchPosts(1, 30);
-
+	// console.log("Response:", response.posts);
+	
 	const user = await currentUser();
-  if (!user) return null;
-
-  const userInfo = await fetchUser(user.id);
-  if (!userInfo?.onboarded) redirect("/onboarding");
 
 	return (
 		<>
@@ -21,12 +18,12 @@ export default async function Home() {
 					<p className="no-result">No posts found 😶</p>
 				) : (
 					<>
-						{response.posts.map((post) => {
+						{response?.posts.map((post) => {
 							return (
 								<ThreadCard
 									key={post._id}
 									id={post._id}
-									currentUser={user?.id}
+									currentUser={user?.id || ''}
 									content={post.text}
 									crew={post.crew}
 									author={post.author}
