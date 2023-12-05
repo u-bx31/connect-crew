@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { SignOutButton, SignedIn, useAuth } from "@clerk/nextjs";
-const LeftSideBar = ({ activity }: { activity: number }) => {
+const LeftSideBar = () => {
 	const router = useRouter();
 	const pathname = usePathname();
 	const { userId } = useAuth();
@@ -17,7 +17,6 @@ const LeftSideBar = ({ activity }: { activity: number }) => {
 						pathname === elm.route;
 
 					if (elm.route === "/profile") elm.route = `${elm.route}/${userId}`;
-					const ico = elm.route === "/activity" ? true : false;
 					return (
 						<Link
 							key={index}
@@ -25,9 +24,6 @@ const LeftSideBar = ({ activity }: { activity: number }) => {
 							className={`leftsidebar_link ${isActive && "bg-primary-500"}`}>
 							<div className="relative">
 								<Image src={elm.imgURL} alt={elm.label} height={24} width={24} />
-								{ico && (
-									<span className="absolute -bottom-2 -right-2 h-5 w-5 text-small-regular flex items-center justify-center bg-red-500 rounded-full text-white">{activity}</span>
-								)}
 							</div>
 							<p className="text-light-1 max-lg:hidden">{elm.label}</p>
 						</Link>
