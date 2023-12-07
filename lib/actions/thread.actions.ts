@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 import User from "../models/user.model";
 import { connectToDB } from "../mongoose";
 import Thread from "../models/thread.model";
+import Community from "../models/crew.model";
+import Crew from "../models/crew.model";
 
 interface Props {
 	author: string;
@@ -28,6 +30,10 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
 			.skip(skipAmount)
 			.limit(pageSize)
 			.populate({ path: "author", model: User })
+			.populate({
+				path: "crew",
+				model: Community,
+			})
 			.populate({
 				path: "children",
 				populate: {
@@ -54,17 +60,30 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
 export async function createPost({ text, author, crewId, path }: Props) {
 	ConnectionToDb();
 	try {
+		//search for crew by crewID
+		const CrewIdObject = await Crew.findOne(
+      { id: crewId },
+      { _id: 1 }
+    );
+		console.log(CrewIdObject);
+		console.log(crewId);
 		const createdThread = await Thread.create({
 			text,
 			author,
-			crew: null,
+			crew: CrewIdObject,
 		});
 
 		await User.findByIdAndUpdate(author, {
 			$push: { threads: createdThread._id },
 		});
+		if (CrewIdObject) {
+      // Update Community model
+      await Crew.findByIdAndUpdate(CrewIdObject, {
+        $push: { threads: createdThread._id },
+      });
+    }
 
-		revalidatePath(path);
+		// revalidatePath(path);
 	} catch (error: any) {
 		throw new Error(`Failed to create/update thread :${error.message}`);
 	}
@@ -80,6 +99,11 @@ export async function fetchThreadById(id: string) {
 				model: User,
 				select: "_id id image name",
 			})
+			.populate({
+        path: "crew",
+        model: Crew,
+        select: "_id id name image",
+      }) // Populate the community field with _id and name
 			.populate({
 				path: "children",
 				populate: [

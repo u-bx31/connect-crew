@@ -1,9 +1,11 @@
-import { authMiddleware } from "@clerk/nextjs";
+import { authMiddleware } from "@clerk/nextjs/server";
+
 export default authMiddleware({
-	// "/" will be accessible to all users
-	publicRoutes: ["/"],
+	publicRoutes: ["/api/webhook/clerk"],
+	ignoredRoutes: ["/((?!api|trpc))(_next.*|.+.[w]+$)", "/api/webhook/clerk"],
 });
 
+// Stop Middleware running on static files
 export const config = {
-	matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+	matcher: ["/((?!.+.[w]+$|_next).)", "/", "/(api|trpc)(.)"],
 };
