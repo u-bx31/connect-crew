@@ -1,5 +1,6 @@
 import { authMiddleware } from "@clerk/nextjs";
 export default authMiddleware({
+	debug : true,
 	// "/" will be accessible to all users
 	publicRoutes: ["/"],
 });
