@@ -67,7 +67,7 @@ export const POST = async (request: Request) => {
     // Show what evnt?.data sends from above resource
     const { id, name, slug, logo_url, image_url, created_by } =
       evnt?.data ?? {};
-      
+
     try {
       // @ts-ignore
       await createCrew(
