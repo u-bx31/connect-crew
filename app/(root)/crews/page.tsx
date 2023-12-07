@@ -34,7 +34,7 @@ async function Page({
         {/* <Searchbar routeType='crews' /> */}
       </div>
 
-      <section className='mt-9 flex flex-wrap gap-4'>
+      <section className='mt-9 flex flex-wrap gap-4 items-center justify-center'>
         {result.crews.length === 0 ? (
           <p className='no-result'>No Result</p>
         ) : (

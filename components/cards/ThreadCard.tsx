@@ -39,6 +39,8 @@ const ThreadCard = ({
 	isComment,
 	isCurrentThread,
 }: Props) => {
+	const displayedAuthors = new Set();
+	const undisplayedAuthors = [];
 	return (
 		<article
 			className={`flex flex-col w-full rounded-md ${
@@ -59,7 +61,7 @@ const ThreadCard = ({
 						<div className="thread-card_bar" />
 					</div>
 
-					<div className="flex w-full flex-col">
+					<div className="flex w-full flex-col gap-y-3">
 						<Link href={`/profile/${author.id}`} className="w-fit">
 							<h4 className="cursor-pointer text-base-semibold text-light-1">
 								{author.name}
@@ -67,11 +69,23 @@ const ThreadCard = ({
 							<p className="text-small-regular text-gray-400">
 								{formatDateString(createdAt)}
 							</p>
+							{!isComment && crew && (
+								<Link className="flex items-center" href={`/crews/${crew.id}`}>
+									<Image
+										src={crew.image}
+										alt="img"
+										width={14}
+										height={14}
+										className="mr-1 object-cover rounded-full"
+									/>
+									<p className="text-subtle-medium text-gray-1">{crew.name} crew</p>
+								</Link>
+							)}
 						</Link>
 
-						<p className="mt-2 text-small-regular text-light-2">{content}</p>
+						<p className="text-small-regular text-light-2">{content}</p>
 
-						<div className={`${isComment && "mb-4"} mt-5 flex flex-col gap-3`}>
+						<div className={`flex flex-col gap-3`}>
 							<div className="flex gap-3.5">
 								<Image
 									src="/assets/heart-gray.svg"
@@ -107,29 +121,48 @@ const ThreadCard = ({
 								/>
 							</div>
 						</div>
-						{ comments.length > 0 && (
-							<Link href={`/thread/${id}`}>
-								<p className="mb-3 text-subtle-medium text-gray-1">
-									{comments.length} repl{comments.length > 1 ? "ies" : "y"}
-								</p>
-							</Link>
-						)}
+						<div className={`flex flex-row -space-x-3 mb-2 ${comments.length > 0 ? 'block' : "hidden"}`}>
+							{comments.slice(0, 3).map((comment, index) => {
+								const author = comment.author;
+
+								// Check if the author has already been displayed
+								if (!displayedAuthors.has(author)) {
+									// If not, add the author to the displayed set and display the comment
+									displayedAuthors.add(author);
+
+									return (
+										<div key={index} className={`w-7 h-7 rounded-full`}>
+											<Image
+												src={author.image}
+												alt={`user_${index}`}
+												width={28}
+												height={28}
+												className="rounded-full object-contain"
+											/>
+										</div>
+									);
+								}
+
+								// If the author has already been displayed, add the author to the undisplayed array
+								undisplayedAuthors.push(author);
+
+								// If the author has already been displayed, return null or an empty fragment
+								return null;
+							})}
+							{comments.length > 3 && (
+								<Link
+									href={`/thread/${id}`}
+									className="w-7 h-7 flex items-center justify-center bg-gray-300  text-white rounded-full">
+									<p className="text-subtle-medium text-gray-1">
+										+ {comments.length - 3}
+									</p>
+								</Link>
+							)}
+						</div>
 					</div>
 				</div>
-				{/* todo : delete && logos */}
+				{/* todo : delete */}
 			</div>
-				{!isComment && crew && (
-					<Link className="mt-5 flex items-center" href={`/crews/${crew.id}`}>
-						<Image
-							src={crew.image}
-							alt="img"
-							width={14}
-							height={14}
-							className="mr-1 object-cover rounded-full"
-						/>
-						<p className="text-subtle-medium text-gray-1">{crew.name} crew</p>
-					</Link>
-				)}
 		</article>
 	);
 };
