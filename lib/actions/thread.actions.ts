@@ -67,21 +67,21 @@ export async function createPost({ text, author, crewId, path }: Props) {
     );
 		console.log(CrewIdObject);
 		console.log(crewId);
-		// const createdThread = await Thread.create({
-		// 	text,
-		// 	author,
-		// 	crew: CrewIdObject,
-		// });
+		const createdThread = await Thread.create({
+			text,
+			author,
+			crew: CrewIdObject,
+		});
 
-		// await User.findByIdAndUpdate(author, {
-		// 	$push: { threads: createdThread._id },
-		// });
-		// if (CrewIdObject) {
-    //   // Update Community model
-    //   await Crew.findByIdAndUpdate(CrewIdObject, {
-    //     $push: { threads: createdThread._id },
-    //   });
-    // }
+		await User.findByIdAndUpdate(author, {
+			$push: { threads: createdThread._id },
+		});
+		if (CrewIdObject) {
+      // Update Community model
+      await Crew.findByIdAndUpdate(CrewIdObject, {
+        $push: { threads: createdThread._id },
+      });
+    }
 
 		// revalidatePath(path);
 	} catch (error: any) {
