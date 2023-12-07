@@ -65,8 +65,6 @@ export async function createPost({ text, author, crewId, path }: Props) {
       { id: crewId },
       { _id: 1 }
     );
-		console.log(CrewIdObject);
-		console.log(crewId);
 		const createdThread = await Thread.create({
 			text,
 			author,

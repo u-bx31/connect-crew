@@ -1,5 +1,6 @@
 import { fetchUserPosts } from "@/lib/actions/user.actions";
 import ThreadCard from "../cards/ThreadCard";
+import { fetchCrewPosts } from "@/lib/actions/crew.actions";
 
 interface Props {
 	currentUserId: string;
@@ -8,7 +9,13 @@ interface Props {
 }
 
 const ThreadsTab = async ({ currentUserId, accountId, accountType }: Props) => {
-	const response = await fetchUserPosts(accountId);
+	let response: any;
+	if(accountType === 'Crew'){
+		response = await fetchCrewPosts(accountId);
+	}
+	else{
+		response = await fetchUserPosts(accountId);
+	}
 	return (
 		<section className="mt-9 flex flex-col gap-10">
 			{response.threads.map((thread: any) => (

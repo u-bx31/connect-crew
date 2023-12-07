@@ -71,7 +71,7 @@ const ThreadCard = ({
 
 						<p className="mt-2 text-small-regular text-light-2">{content}</p>
 
-						<div className={`${isComment && "mb-5"} mt-5 flex flex-col gap-3`}>
+						<div className={`${isComment && "mb-4"} mt-5 flex flex-col gap-3`}>
 							<div className="flex gap-3.5">
 								<Image
 									src="/assets/heart-gray.svg"
@@ -107,9 +107,9 @@ const ThreadCard = ({
 								/>
 							</div>
 						</div>
-						{isComment && comments.length > 0 && (
+						{ comments.length > 0 && (
 							<Link href={`/thread/${id}`}>
-								<p className="mt-1 text-subtle-medium text-gray-1">
+								<p className="mb-3 text-subtle-medium text-gray-1">
 									{comments.length} repl{comments.length > 1 ? "ies" : "y"}
 								</p>
 							</Link>
@@ -117,19 +117,19 @@ const ThreadCard = ({
 					</div>
 				</div>
 				{/* todo : delete && logos */}
+			</div>
 				{!isComment && crew && (
 					<Link className="mt-5 flex items-center" href={`/crews/${crew.id}`}>
-						<p className="text-subtle-medium text-gray-1">{crew.name} crew</p>
 						<Image
 							src={crew.image}
 							alt="img"
 							width={14}
 							height={14}
-							className="ml-1 object-cover rounded-full"
+							className="mr-1 object-cover rounded-full"
 						/>
+						<p className="text-subtle-medium text-gray-1">{crew.name} crew</p>
 					</Link>
 				)}
-			</div>
 		</article>
 	);
 };

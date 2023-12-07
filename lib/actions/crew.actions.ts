@@ -100,7 +100,7 @@ export async function fetchCrewPosts(id: string) {
   }
 }
 
-export async function fetchCommunities({
+export async function fetchCrews({
   searchString = "",
   pageNumber = 1,
   pageSize = 20,
@@ -134,23 +134,23 @@ export async function fetchCommunities({
     const sortOptions = { createdAt: sortBy };
 
     // Create a query to fetch the communities based on the search and sort criteria.
-    const communitiesQuery = Crew.find(query)
+    const crewsQuery = Crew.find(query)
       .sort(sortOptions)
       .skip(skipAmount)
       .limit(pageSize)
       .populate("members");
 
     // Count the total number of communities that match the search criteria (without pagination).
-    const totalCommunitiesCount = await Crew.countDocuments(query);
+    const totalCrewsCount = await Crew.countDocuments(query);
 
-    const communities = await communitiesQuery.exec();
+    const crews = await crewsQuery.exec();
 
     // Check if there are more communities beyond the current page.
-    const isNext = totalCommunitiesCount > skipAmount + communities.length;
+    const isNext = totalCrewsCount > skipAmount + crews.length;
 
-    return { communities, isNext };
+    return { crews, isNext };
   } catch (error) {
-    console.error("Error fetching communities:", error);
+    console.error("Error fetching crews:", error);
     throw error;
   }
 }

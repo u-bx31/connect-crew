@@ -44,7 +44,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 				<Comments
 					threadId={thread._id.toString()}
 					currentUserImg={userInfo?.image}
-					currentUserId={userInfo?._id}
+					currentUserId={userInfo?._id.toString()}
 				/>
 			</div>
 			<div className=" mt-10">
