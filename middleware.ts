@@ -1,8 +1,8 @@
 import { authMiddleware } from "@clerk/nextjs";
 export default authMiddleware({
-	debug : true,
-	// "/" will be accessible to all users
-	publicRoutes: ["/"],
+	publicRoutes: ["","/api/webhook/clerk"],
+  // An array of routes to be ignored by the authentication middleware.
+  ignoredRoutes: ["/api/webhook/clerk"],
 });
 
 export const config = {

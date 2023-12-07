@@ -36,12 +36,13 @@ const CreatePost = ({ userId }: Props) => {
 	});
 
 	const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
-    await createPost({
-      author : userId,
-      text : values.thread,
-      crewId : organization ? organization.id : null,
-      path : pathname,
-    })
+		console.log('key',process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL);
+    // await createPost({
+    //   author : userId,
+    //   text : values.thread,
+    //   crewId : organization ? organization.id : null,
+    //   path : pathname,
+    // })
 
 		router.push("/");
 	};
