@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
 	crews: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "Community",
+			ref: "Crew",
 		},
 	],
 });

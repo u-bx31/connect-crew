@@ -32,7 +32,7 @@ const ThreadCard = ({
 	currentUser,
 	content,
 	comments,
-	crew = null,
+	crew,
 	author,
 	createdAt,
 	parentId,
@@ -71,7 +71,7 @@ const ThreadCard = ({
 
 						<p className="mt-2 text-small-regular text-light-2">{content}</p>
 
-						<div className={`${isComment && 'mb-5'} mt-5 flex flex-col gap-3`}>
+						<div className={`${isComment && "mb-5"} mt-5 flex flex-col gap-3`}>
 							<div className="flex gap-3.5">
 								<Image
 									src="/assets/heart-gray.svg"
@@ -116,6 +116,19 @@ const ThreadCard = ({
 						)}
 					</div>
 				</div>
+				{/* todo : delete && logos */}
+				{!isComment && crew && (
+					<Link className="mt-5 flex items-center" href={`/crews/${crew.id}`}>
+						<p className="text-subtle-medium text-gray-1">{crew.name} crew</p>
+						<Image
+							src={crew.image}
+							alt="img"
+							width={14}
+							height={14}
+							className="ml-1 object-cover rounded-full"
+						/>
+					</Link>
+				)}
 			</div>
 		</article>
 	);

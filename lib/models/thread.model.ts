@@ -12,7 +12,7 @@ const threadSchema = new mongoose.Schema({
 	},
 	crew: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "Community",
+		ref: "Crew",
 	},
 	createdAt: {
 		type: Date,
