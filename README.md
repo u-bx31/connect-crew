@@ -1,8 +1,114 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center">
+ <img width="150" src="https://connect-crew.vercel.app/logo.svg" alt="Material Bread logo">
+</p>
+<h1 align="center">
+ ConnectCrew
+</h1>
 
-## Getting Started
+<hr/>
 
-First, run the development server:
+This project was generated with [NextJS](https://nextjs.org/docs/getting-started/installation) version 14.0.1.
+
+## Table of contents
+
+- [Overview](#overview)
+  - [About Project](#about-project)
+  - [Links](#links)
+- [App process](#app-process)
+  - [Built with](#built-with)
+  - [Requirement](#Requirement)
+    - [Installation](#installation)
+    - [Environment](#environment)
+    - [Middleware](#middleware)
+  - [Authentication](#authentication)
+  - [Application](#app)
+- [Author](#author)
+
+# Overview:
+## About the Project:
+Connect Crew is a social networking app designed to create meaningful connections between users with common interests and goals. Like Threads, this app gives users a way to talk, share updates, and collaborate on projects in a dedicated community called "Crews."
+
+##### Highlights of Connect Crew include:
+
+- Crews : Users can join or create crews based on specific interests, hobbies, or professional fields, fostering a sense of community among like-minded individuals.
+
+- Real-time Threads : The app's threaded conversations enable users to engage in dynamic discussions, share updates
+
+- User Profiles : Each user has their own profile as a reflection of the threads they post or reply to or are tagged with
+
+- Multimedia sharing : Connect Crew supports the sharing of a variety of multimedia content, `including photos, videos , and documents`(will be added soon), to increase communication and collaboration community
+
+- Chat with friends `will be added soon` : Users can chat with there friends that they have in friends list
+
+## Links
+- [Live Demo](https://connect-crew.vercel.app/)
+
+## App Process:
+
+#### Built With:
+
+- [NextJs14](https://nextjs.org/docs/getting-started/installation)
+- [Tailwind css](https://tailwindcss.com/docs/installation)
+- [Shadcn/ui](https://ui.shadcn.com/)
+- [TypeScript]()
+- [Mongo Database](https://www.mongodb.com/)
+- [Uploadthing](https://docs.uploadthing.com/getting-started/appdir)
+- [Clerk](https://clerk.com/docs/quickstarts/nextjs)
+
+#### Requirement 
+  - ##### Installation
+
+install all those packages
+```bash
+# Nextjs 14
+  npx create-next-app@latest
+#Mongo Database
+  npm install mongodb
+#Clerk Authentication
+  npm install @clerk/nextjs
+#UploadTHing Upload images to db
+  npm install uploadthing @uploadthing/react
+#Shadcn/ui
+  npx shadcn-ui@latest init
+```
+- ##### Environment 
+
+for more inforamtion about those packages keys check [here](#built-with)
+
+```javascript
+## clerk keys
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=**************************
+CLERK_SECRET_KEY=**************************
+
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
+
+NEXT_CLERK_WEBHOOK_SECRET=**************************
+
+## MonogoDB key
+MONGODB_URL=**************************
+
+## UploadThing keys
+UPLOADTHING_SECRET=s**************************efd84ec385438bc5415b
+UPLOADTHING_APP_ID=**************************
+```
+- ##### Middleware
+
+```javascript
+
+export default authMiddleware({
+	publicRoutes: ["/","/api/webhook/clerk"],
+	ignoredRoutes: ["/api/webhook/clerk"],
+});
+
+// Stop Middleware running on static files
+export const config = {
+	matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+};
+```
+- ##### Development server
 
 ```bash
 npm run dev
@@ -16,21 +122,21 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Authentication 
+Connect Crew utilizes Clerk for authentication, a robust authentication and user management platform. Clerk enhances the security and user experience of the app by providing seamless authentication flows, secure password management, and a variety of authentication methods.
+- Check Clerk docs to [learn more](https://clerk.com/docs/authentication/overview)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### App
+Connect Crew leverages Server Actions of Next js 14 and Mongoose, a MongoDB object modeling library for Node.js. Server Actions allow for efficient and secure handling of various operations within the app, such as 
+- Crew actions
+- User actions
+- Thread actions
 
-## Learn More
+all those action located in `lib/actions`
+each action have there data structure as Model located in `lib/models`
 
-To learn more about Next.js, take a look at the following resources:
+<hr/>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Author
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- this app created by : [u-bx31](https://github.com/u-bx31)
