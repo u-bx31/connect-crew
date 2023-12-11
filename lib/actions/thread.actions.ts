@@ -61,10 +61,7 @@ export async function createPost({ text, author, crewId, path }: Props) {
 	ConnectionToDb();
 	try {
 		//search for crew by crewID
-		const CrewIdObject = await Crew.findOne(
-      { id: crewId },
-      { _id: 1 }
-    );
+		const CrewIdObject = await Crew.findOne({ id: crewId }, { _id: 1 });
 		const createdThread = await Thread.create({
 			text,
 			author,
@@ -75,11 +72,11 @@ export async function createPost({ text, author, crewId, path }: Props) {
 			$push: { threads: createdThread._id },
 		});
 		if (CrewIdObject) {
-      // Update Community model
-      await Crew.findByIdAndUpdate(CrewIdObject, {
-        $push: { threads: createdThread._id },
-      });
-    }
+			// Update Community model
+			await Crew.findByIdAndUpdate(CrewIdObject, {
+				$push: { threads: createdThread._id },
+			});
+		}
 
 		// revalidatePath(path);
 	} catch (error: any) {
@@ -98,10 +95,10 @@ export async function fetchThreadById(id: string) {
 				select: "_id id image name",
 			})
 			.populate({
-        path: "crew",
-        model: Crew,
-        select: "_id id name image",
-      }) // Populate the community field with _id and name
+				path: "crew",
+				model: Crew,
+				select: "_id id name image",
+			}) // Populate the community field with _id and name
 			.populate({
 				path: "children",
 				populate: [
@@ -140,26 +137,44 @@ export async function addCommentToThread({
 	try {
 		const originalThread = await Thread.findById(threadId);
 
-		if(!originalThread) throw new Error('Thread not found')
-		
+		if (!originalThread) throw new Error("Thread not found");
+
 		const commentThread = new Thread({
-			text : commentText,
-			author : userId,
-			parentId : threadId
-		})
+			text: commentText,
+			author: userId,
+			parentId: threadId,
+		});
 
 		const savedThreadComment = await commentThread.save();
 
-		originalThread.children.push(savedThreadComment._id)
+		originalThread.children.push(savedThreadComment._id);
 
-		await originalThread.save()
+		await originalThread.save();
 
-		revalidatePath(path)
+		revalidatePath(path);
 	} catch (error: any) {
 		throw new Error(`Failed to add comment to a thread :${error.message}`);
 	}
 }
+// export async function addLikesToThread({
+// 	threadId,
+// 	userId,
+// 	path,
+// }: CommentProps) {
+// 	ConnectionToDb();
 
+// 	try {
+// 		const originalThread = await Thread.findByIdAndUpdate(threadId, {
+// 			$push: { Likes: userId },
+// 		});
+
+// 		if (!originalThread) throw new Error("Thread not found");
+
+// 		revalidatePath(path);
+// 	} catch (error: any) {
+// 		throw new Error(`Failed to add comment to a thread :${error.message}`);
+// 	}
+// }
 
 //connection to mongodb function
 const ConnectionToDb = () => {
