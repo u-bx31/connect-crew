@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 
 import { fetchUser } from "@/lib/actions/user.actions";
 import { fetchCrews} from "@/lib/actions/crew.actions";
-import CommunityCard from "@/components/cards/crewsCard";
+import CrewCard from "@/components/cards/crewsCard";
 
 async function Page({
   searchParams,
@@ -40,7 +40,7 @@ async function Page({
         ) : (
           <>
             {result.crews.map((crew) => (
-              <CommunityCard
+              <CrewCard
                 key={crew.id}
                 id={crew.id}
                 name={crew.name}
