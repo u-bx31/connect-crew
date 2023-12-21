@@ -28,8 +28,8 @@ const Page = async ({ params }: { params: { id: string } }) => {
 		<section className="relative">
 			<div>
 				<ThreadCard
-					key={thread._id}
-					id={thread._id}
+					key={thread._id.toString()}
+					id={thread._id.toString()}
 					currentUser={user?.id || ""}
 					content={thread.text}
 					crew={thread.crew}
@@ -51,8 +51,8 @@ const Page = async ({ params }: { params: { id: string } }) => {
 				{thread?.children.map((items: any) => {
 					return (
 						<ThreadCard
-							key={items._id}
-							id={items._id}
+							key={items._id.toString()}
+							id={items._id.toString()}
 							currentUser={user?.id || ""}
 							content={items.text}
 							crew={items.crew}

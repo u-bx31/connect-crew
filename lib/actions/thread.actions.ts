@@ -19,6 +19,11 @@ interface CommentProps {
 	userId: string;
 	path: string;
 }
+interface LikesProps {
+	threadId: string;
+	userId: string;
+	path: string;
+}
 
 export async function fetchPosts(pageNumber = 1, pageSize = 20) {
 	ConnectionToDb();
@@ -156,25 +161,20 @@ export async function addCommentToThread({
 		throw new Error(`Failed to add comment to a thread :${error.message}`);
 	}
 }
-// export async function addLikesToThread({
-// 	threadId,
-// 	userId,
-// 	path,
-// }: CommentProps) {
-// 	ConnectionToDb();
+export async function addLikesToThread({ threadId, userId, path }: LikesProps) {
+	ConnectionToDb();
 
-// 	try {
-// 		const originalThread = await Thread.findByIdAndUpdate(threadId, {
-// 			$push: { Likes: userId },
-// 		});
+	try {
+		await Thread.findOneAndUpdate(
+      { _id: threadId },
+      { $push: { Likes: { userId: userId } } }
+    );
 
-// 		if (!originalThread) throw new Error("Thread not found");
-
-// 		revalidatePath(path);
-// 	} catch (error: any) {
-// 		throw new Error(`Failed to add comment to a thread :${error.message}`);
-// 	}
-// }
+		revalidatePath(path);
+	} catch (error: any) {
+		throw new Error(`Failed to add like to a thread :${error.message}`);
+	}
+}
 
 //connection to mongodb function
 const ConnectionToDb = () => {

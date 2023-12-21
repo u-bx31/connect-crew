@@ -1,6 +1,10 @@
+import { addLikesToThread } from "@/lib/actions/thread.actions";
 import { formatDateString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import Likes from "./likes";
 
 interface Props {
 	id: string;
@@ -57,7 +61,6 @@ const ThreadCard = ({
 								className="cursor-pointer rounded-full"
 							/>
 						</Link>
-
 						<div className="thread-card_bar" />
 					</div>
 
@@ -87,13 +90,7 @@ const ThreadCard = ({
 
 						<div className={`flex flex-col gap-3`}>
 							<div className="flex gap-3.5">
-								<Image
-									src="/assets/heart-gray.svg"
-									alt="heart"
-									width={24}
-									height={24}
-									className="cursor-not-allowed object-contain"
-								/>
+								<Likes threadId={id} userId={currentUser} />
 								<Link href={`/thread/${id}`}>
 									{!isCurrentThread && (
 										<Image
@@ -121,7 +118,10 @@ const ThreadCard = ({
 								/>
 							</div>
 						</div>
-						<div className={`flex flex-row -space-x-3 mb-2 ${comments.length > 0 ? 'block' : "hidden"}`}>
+						<div
+							className={`flex flex-row -space-x-3 mb-2 ${
+								comments.length > 0 ? "block" : "hidden"
+							}`}>
 							{comments.slice(0, 3).map((comment, index) => {
 								const author = comment.author;
 

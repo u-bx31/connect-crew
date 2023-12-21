@@ -18,11 +18,11 @@ export default async function Home() {
 					<p className="no-result">No posts found .</p>
 				) : (
 					<>
-						{response?.posts.map((post) => {
+						{response?.posts?.map((post) => {
 							return (
 								<ThreadCard
-									key={post._id}
-									id={post._id}
+									key={post._id.toString()}
+									id={post._id.toString()}
 									currentUser={user?.id || ''}
 									content={post.text}
 									crew={post.crew}
