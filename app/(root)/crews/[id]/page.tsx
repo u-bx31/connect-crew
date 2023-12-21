@@ -9,12 +9,15 @@ import ProfileHeader from "@/components/shared/ProfileHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { fetchCrewDetails } from "@/lib/actions/crew.actions";
+import { fetchUser } from "@/lib/actions/user.actions";
 
 async function Page({ params }: { params: { id: string } }) {
   const user = await currentUser();
   if (!user) return null;
 
   const crewDetails = await fetchCrewDetails(params.id);
+
+  const userInfo = await fetchUser(user.id || '');
 
   return (
     <section>
@@ -55,6 +58,7 @@ async function Page({ params }: { params: { id: string } }) {
             {/* @ts-ignore */}
             <ThreadsTab
               currentUserId={user.id}
+              currentUserInfo = {userInfo}
               accountId={crewDetails._id}
               accountType='Crew'
             />
@@ -79,6 +83,7 @@ async function Page({ params }: { params: { id: string } }) {
             {/* @ts-ignore */}
             <ThreadsTab
               currentUserId={user.id}
+              currentUserInfo = {userInfo}
               accountId={crewDetails._id}
               accountType='Crew'
             />

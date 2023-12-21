@@ -165,10 +165,30 @@ export async function addLikesToThread({ threadId, userId, path }: LikesProps) {
 	ConnectionToDb();
 
 	try {
-		await Thread.findOneAndUpdate(
-      { _id: threadId },
-      { $push: { Likes: { userId: userId } } }
-    );
+		const user = await User.findOne({ id: userId });
+		if (!user) {
+			throw new Error("This user not found");
+		}
+
+		const thread = await Thread.findById(threadId);
+		if (!thread) {
+			throw new Error("Thread not found");
+		}
+
+		// Check if the user already exists in the likes array
+		const userIndex = thread.likes.findIndex((like: any) =>
+			like.userId.equals(user._id)
+		);
+
+		if (userIndex !== -1) {
+			// If the user exists, remove them from the likes array
+			thread.likes.splice(userIndex, 1);
+		} else {
+			// If the user doesn't exist, add them to the likes array
+			thread.likes.push({ userId: user._id });
+		}
+
+		await thread.save(); // Save the updated thread document
 
 		revalidatePath(path);
 	} catch (error: any) {

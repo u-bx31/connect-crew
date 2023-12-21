@@ -121,6 +121,13 @@ module.exports = {
           fontWeight: "400",
         },
       ],
+      "xsmall-regular": [
+        "12px",
+        {
+          lineHeight: "140%",
+          fontWeight: "400",
+        },
+      ],
       "small-medium": [
         "14px",
         {

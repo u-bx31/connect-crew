@@ -16,7 +16,7 @@ interface Props {
 	};
 	content: string;
 	parentId: string | null;
-	currentUser: string;
+	currentUser: any;
 	crew: {
 		id: string;
 		name: string;
@@ -27,8 +27,10 @@ interface Props {
 			image: string;
 		};
 	}[];
+	likes : number
 	isComment?: boolean;
 	isCurrentThread?: boolean;
+	isLiked : boolean;
 }
 
 const ThreadCard = ({
@@ -40,6 +42,8 @@ const ThreadCard = ({
 	author,
 	createdAt,
 	parentId,
+	likes,
+	isLiked,
 	isComment,
 	isCurrentThread,
 }: Props) => {
@@ -89,8 +93,8 @@ const ThreadCard = ({
 						<p className="text-small-regular text-light-2">{content}</p>
 
 						<div className={`flex flex-col gap-3`}>
-							<div className="flex gap-3.5">
-								<Likes threadId={id} userId={currentUser} />
+							<div className="flex gap-4 items-start">
+								<Likes threadId={id} state={isLiked} userId={currentUser.id.toString()} likes={likes}  />
 								<Link href={`/thread/${id}`}>
 									{!isCurrentThread && (
 										<Image

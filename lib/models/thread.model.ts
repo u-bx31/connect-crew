@@ -27,7 +27,7 @@ const threadSchema = new mongoose.Schema({
 			ref: "Thread",
 		},
 	],
-	Likes: [
+	likes: [
 		{
 			userId: {
 				type: mongoose.Schema.Types.ObjectId,

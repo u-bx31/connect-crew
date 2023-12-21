@@ -6,39 +6,49 @@ interface Props {
 	currentUserId: string;
 	accountId: string;
 	accountType: string;
+	currentUserInfo : any,
 }
 
-const ThreadsTab = async ({ currentUserId, accountId, accountType }: Props) => {
+const ThreadsTab = async ({ currentUserId, currentUserInfo , accountId , accountType }: Props) => {
 	let response: any;
-	if(accountType === 'Crew'){
+	if (accountType === "Crew") {
 		response = await fetchCrewPosts(accountId);
-	}
-	else{
+	} else {
 		response = await fetchUserPosts(accountId);
 	}
 	return (
 		<section className="mt-9 flex flex-col gap-10">
-			{response.threads.map((thread: any) => (
-				<ThreadCard
-					key={thread._id.toString()}
-					id={thread._id.toString()}
-					currentUser={currentUserId}
-					parentId={thread.parentId}
-					content={thread.text}
-					author={
-						accountType === "User"
-							? { name: response.name, image: response.image, id: response.id }
-							: {
-									name: thread.author.name,
-									image: thread.author.image,
-									id: thread.author.id,
-							  }
-					}
-					crew={null}
-					createdAt={thread.createdAt}
-					comments={thread.children}
-				/>
-			))}
+			{response.threads.map((thread: any) => {
+				let state;
+				if (thread.likes.length > 0) {
+					state = thread.likes.map(
+						(item: any) => currentUserInfo === item.userId.toString()
+					);
+				}
+				return (
+					<ThreadCard
+						key={thread._id.toString()}
+						id={thread._id.toString()}
+						currentUser={currentUserInfo}
+						parentId={thread.parentId}
+						content={thread.text}
+						author={
+							accountType === "User"
+								? { name: response.name, image: response.image, id: response.id }
+								: {
+										name: thread.author.name,
+										image: thread.author.image,
+										id: thread.author.id,
+								  }
+						}
+						isLiked={state}
+						likes={thread.likes.length}
+						crew={null}
+						createdAt={thread.createdAt}
+						comments={thread.children}
+					/>
+				);
+			})}
 		</section>
 	);
 };

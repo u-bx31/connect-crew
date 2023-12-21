@@ -10,6 +10,8 @@ export default async function Home() {
 	
 	const user = await currentUser();
 
+	const userInfo = await fetchUser(user?.id || '')
+
 	return (
 		<>
 			<h1 className="text-white">Home</h1>
@@ -19,17 +21,23 @@ export default async function Home() {
 				) : (
 					<>
 						{response?.posts?.map((post) => {
+							let state
+							if(post.likes.length > 0){
+								state = post.likes.map((item:any) => userInfo._id === item.userId.toString())
+							}
 							return (
 								<ThreadCard
 									key={post._id.toString()}
 									id={post._id.toString()}
-									currentUser={user?.id || ''}
+									currentUser={userInfo}
 									content={post.text}
 									crew={post.crew}
 									author={post.author}
 									createdAt={post.createdAt}
 									comments={post.children}
 									parentId={post.parentId}
+									isLiked={state}
+									likes = {post.likes.length}
 								/>
 							);
 						})}

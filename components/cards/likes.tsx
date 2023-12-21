@@ -3,30 +3,43 @@
 import { addLikesToThread } from "@/lib/actions/thread.actions";
 import { Heart } from "@/public/assets";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-
-
-const Likes = ({threadId, userId}:{threadId : string , userId : string}) => {
-	const [activ, setActiv] = useState<boolean>(false);
-	const [count, setCount] = useState<number>(0);
+const Likes = ({
+	threadId,
+	userId,
+	likes,
+	state,
+}: {
+	threadId: string;
+	userId: string;
+	state: boolean;
+	likes: number;
+}) => {
+	const [activ, setActiv] = useState<boolean>(state);
+	const [count, setCount] = useState<number>(likes);
 
 	const handleLikes = async (threadId: string, userId: string) => {
 		setActiv(!activ);
 
-		if (activ) {
+		if (count > 0 && activ) {
+			setCount(count - 1);
+		} else {
 			setCount(count + 1);
 		}
-		// await addLikesToThread({
-		// 	threadId: threadId,
-		// 	userId: userId,
-		// 	path: '/',
-		// });
+		await addLikesToThread({
+			threadId: threadId,
+			userId: userId,
+			path: "/",
+		});
 	};
 	return (
-		<button onClick={() => handleLikes(threadId, userId)}>
-      <Heart className={`w-6 h-6 stroke-white ${activ && 'fill-white'}`} />
-		</button>
+		<div className="h-10 flex flex-col gap-y-1 items-center ">
+			<button onClick={() => handleLikes(threadId, userId)}>
+				<Heart className={`w-6 h-6 stroke-white ${activ && "fill-white"}`} />
+			</button>
+			{count > 0 && <span className="text-xsmall-regular text-white">{count <=200 ? count : '200+'} Likes</span>}
+		</div>
 	);
 };
 
