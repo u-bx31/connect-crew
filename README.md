@@ -40,6 +40,13 @@ Connect Crew is a social networking app designed to create meaningful connection
 
 - Chat with friends `will be added soon` : Users can chat with there friends that they have in friends list
 
+##### in progress 
+
+ - user can like i thread (done)
+ - user can repost the thread
+ - user can share on ohter social media
+ - user can chat with their friend list
+   
 ## Links
 - [Live Demo](https://connect-crew.vercel.app/)
 
