@@ -28,7 +28,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 	let state;
 	if (thread.likes.length > 0) {
 		state = thread.likes.map(
-			(item: any) => userInfo._id === item.userId.toString()
+			(item: any) => userInfo?._id === item.userId.toString()
 		);
 	}
 	return (

@@ -23,7 +23,7 @@ export default async function Home() {
 						{response?.posts?.map((post) => {
 							let state
 							if(post.likes.length > 0){
-								state = post.likes.map((item:any) => userInfo._id === item.userId.toString())
+								state = post.likes.map((item:any) => userInfo?._id === item.userId.toString())
 							}
 							return (
 								<ThreadCard

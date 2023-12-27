@@ -21,7 +21,7 @@ const ThreadsTab = async ({ currentUserId, currentUserInfo , accountId , account
 			{response.threads.map((thread: any) => {
 				let state;
 				if (thread.likes.length > 0) {
-					state = thread.likes.map(
+					state = thread?.likes.map(
 						(item: any) => currentUserInfo === item.userId.toString()
 					);
 				}

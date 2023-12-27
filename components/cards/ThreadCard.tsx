@@ -94,7 +94,7 @@ const ThreadCard = ({
 
 						<div className={`flex flex-col gap-3`}>
 							<div className="flex gap-4 items-start">
-								<Likes threadId={id} state={isLiked} userId={currentUser.id.toString()} likes={likes}  />
+								<Likes threadId={id} state={isLiked} userId={currentUser?.id.toString()} likes={likes}  />
 								<Link href={`/thread/${id}`}>
 									{!isCurrentThread && (
 										<Image
