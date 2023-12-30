@@ -25,7 +25,7 @@ const Likes = ({
 		try {
 			const threadLIke = lk.filter((items: any) => user_Id === items);
 			console.log(threadLIke);
-			if (threadLIke[0] === user_Id) {
+			if (threadLIke.length > 0 && threadLIke[0] === user_Id) {
 				setActiv(true);
 			}
 			else{
@@ -34,7 +34,7 @@ const Likes = ({
 		} catch (error) {
 			console.error("Error in useEffect of likes:", error);
 		}
-	}, []);
+	}, [,userId]);
 
 	const handleLikes = async () => {
 		if (!userId) {
