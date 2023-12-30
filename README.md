@@ -14,6 +14,7 @@ This project was generated with [NextJS](https://nextjs.org/docs/getting-started
 - [Overview](#overview)
   - [About Project](#about-project)
   - [Links](#links)
+  - [Test Account] (#test-account)
 - [App process](#app-process)
   - [Built with](#built-with)
   - [Requirement](#Requirement)
@@ -25,7 +26,9 @@ This project was generated with [NextJS](https://nextjs.org/docs/getting-started
 - [Author](#author)
 
 # Overview:
+
 ## About the Project:
+
 Connect Crew is a social networking app designed to create meaningful connections between users with common interests and goals. Like Threads, this app gives users a way to talk, share updates, and collaborate on projects in a dedicated community called "Crews."
 
 ##### Highlights of Connect Crew include:
@@ -40,15 +43,20 @@ Connect Crew is a social networking app designed to create meaningful connection
 
 - Chat with friends `will be added soon` : Users can chat with there friends that they have in friends list
 
-##### in progress 
+##### in progress
 
- - user can like i thread (done)
- - user can repost the thread
- - user can share on ohter social media
- - user can chat with their friend list
-   
+- user can like i thread
+- user can repost the thread
+- user can share on ohter social media
+- user can chat with their friend list
+
 ## Links
+
 - [Live Demo](https://connect-crew.vercel.app/)
+
+## Test Account
+
+`` - Email : test03122@yopmail.com  |  Password : test03122``
 
 ## App Process:
 
@@ -62,10 +70,12 @@ Connect Crew is a social networking app designed to create meaningful connection
 - [Uploadthing](https://docs.uploadthing.com/getting-started/appdir)
 - [Clerk](https://clerk.com/docs/quickstarts/nextjs)
 
-#### Requirement 
-  - ##### Installation
+#### Requirement
+
+- ##### Installation
 
 install all those packages
+
 ```bash
 # Nextjs 14
   npx create-next-app@latest
@@ -78,7 +88,8 @@ install all those packages
 #Shadcn/ui
   npx shadcn-ui@latest init
 ```
-- ##### Environment 
+
+- ##### Environment
 
 for more inforamtion about those packages keys check [here](#built-with)
 
@@ -101,12 +112,12 @@ MONGODB_URL=**************************
 UPLOADTHING_SECRET=s**************************efd84ec385438bc5415b
 UPLOADTHING_APP_ID=**************************
 ```
+
 - ##### Middleware
 
 ```javascript
-
 export default authMiddleware({
-	publicRoutes: ["/","/api/webhook/clerk"],
+	publicRoutes: ["/", "/api/webhook/clerk"],
 	ignoredRoutes: ["/api/webhook/clerk"],
 });
 
@@ -115,6 +126,7 @@ export const config = {
 	matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
 ```
+
 - ##### Development server
 
 ```bash
@@ -129,12 +141,16 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Authentication 
+### Authentication
+
 Connect Crew utilizes Clerk for authentication, a robust authentication and user management platform. Clerk enhances the security and user experience of the app by providing seamless authentication flows, secure password management, and a variety of authentication methods.
+
 - Check Clerk docs to [learn more](https://clerk.com/docs/authentication/overview)
 
 ### App
-Connect Crew leverages Server Actions of Next js 14 and Mongoose, a MongoDB object modeling library for Node.js. Server Actions allow for efficient and secure handling of various operations within the app, such as 
+
+Connect Crew leverages Server Actions of Next js 14 and Mongoose, a MongoDB object modeling library for Node.js. Server Actions allow for efficient and secure handling of various operations within the app, such as
+
 - Crew actions
 - User actions
 - Thread actions

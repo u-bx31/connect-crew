@@ -39,9 +39,8 @@ const Comments = ({threadId , currentUserImg , currentUserId}: Props) => {
 	});
 
 	const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
-
     await addCommentToThread({
-      userId : JSON.parse(currentUserId),
+      userId : currentUserId,
       commentText : values.thread,
       threadId  : threadId,
       path : pathname,
@@ -69,14 +68,14 @@ const Comments = ({threadId , currentUserImg , currentUserId}: Props) => {
              />
             </FormLabel>
             <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
-              <Input className="!mt-0 " type='text' placeholder="comments"{...field} />
+              <Input className="!mt-0 " type='text' placeholder="comments" {...field} />
             </FormControl>
           </FormItem>
         )}
       />
-      <Button type="submit" className="bg-primary-500 comment-form_btn">
+      <button type="submit" className="bg-primary-500 comment-form_btn">
         Reply
-      </Button>
+      </button>
     </form>
   </Form>
   );

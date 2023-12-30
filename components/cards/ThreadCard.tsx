@@ -27,10 +27,11 @@ interface Props {
 			image: string;
 		};
 	}[];
-	likes : number
+	lk: any;
+	likes: number;
 	isComment?: boolean;
 	isCurrentThread?: boolean;
-	isLiked : boolean;
+	isLiked: boolean;
 }
 
 const ThreadCard = ({
@@ -43,12 +44,23 @@ const ThreadCard = ({
 	createdAt,
 	parentId,
 	likes,
+	lk,
 	isLiked,
 	isComment,
 	isCurrentThread,
 }: Props) => {
 	const displayedAuthors = new Set();
 	const undisplayedAuthors = [];
+	// const state = lk.map((items: any) => {
+	// 	// console.log('tes', currentUser?._id.toString() === items.userId.toString() );
+	// 	// console.log(items);
+	// 	// console.log(currentUser?._id);
+	// 	return currentUser?._id.toString() === items.userId.toString();
+	// });
+	// console.log(state);
+
+	// const ar1 = lk
+	// console.log(ar1)
 	return (
 		<article
 			className={`flex flex-col w-full rounded-md ${
@@ -94,7 +106,14 @@ const ThreadCard = ({
 
 						<div className={`flex flex-col gap-3`}>
 							<div className="flex gap-4 items-start">
-								<Likes threadId={id} state={isLiked} userId={currentUser?.id.toString()} likes={likes}  />
+								<Likes
+									threadId={id}
+									lk={lk.map((it: any) => it?.userId.toString())}
+									userId={currentUser?.id.toString()}
+									user_Id={currentUser?._id.toString()}
+									likes={lk.length}
+								/>
+
 								<Link href={`/thread/${id}`}>
 									{!isCurrentThread && (
 										<Image

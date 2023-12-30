@@ -7,10 +7,10 @@ import { redirect } from "next/navigation";
 export default async function Home() {
 	const response = await fetchPosts(1, 30);
 	// console.log("Response:", response.posts);
-	
+
 	const user = await currentUser();
 
-	const userInfo = await fetchUser(user?.id || '')
+	const userInfo = await fetchUser(user?.id || "");
 
 	return (
 		<>
@@ -21,9 +21,11 @@ export default async function Home() {
 				) : (
 					<>
 						{response?.posts?.map((post) => {
-							let state
-							if(post.likes.length > 0){
-								state = post.likes.map((item:any) => userInfo?._id === item.userId.toString())
+							let state;
+							if (post.likes.length > 0) {
+								state = post.likes.map((item: any) => {
+									return userInfo?._id === item.userId;
+								});
 							}
 							return (
 								<ThreadCard
@@ -37,7 +39,8 @@ export default async function Home() {
 									comments={post.children}
 									parentId={post.parentId}
 									isLiked={state}
-									likes = {post.likes.length}
+									lk={post.likes}
+									likes={post.likes.length}
 								/>
 							);
 						})}

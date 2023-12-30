@@ -42,6 +42,7 @@ const ThreadsTab = async ({ currentUserId, currentUserInfo , accountId , account
 								  }
 						}
 						isLiked={state}
+						lk={thread.likes}
 						likes={thread.likes.length}
 						crew={null}
 						createdAt={thread.createdAt}
