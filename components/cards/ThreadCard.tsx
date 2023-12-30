@@ -51,25 +51,15 @@ const ThreadCard = ({
 }: Props) => {
 	const displayedAuthors = new Set();
 	const undisplayedAuthors = [];
-	// const state = lk.map((items: any) => {
-	// 	// console.log('tes', currentUser?._id.toString() === items.userId.toString() );
-	// 	// console.log(items);
-	// 	// console.log(currentUser?._id);
-	// 	return currentUser?._id.toString() === items.userId.toString();
-	// });
-	// console.log(state);
-
-	// const ar1 = lk
-	// console.log(ar1)
 	return (
 		<article
 			className={`flex flex-col w-full rounded-md ${
 				isComment ? "px-0 xs:px-7" : "bg-dark-2 p-7"
 			}`}>
 			<div className="flex items-start justify-between">
-				<div className="flex w-full flex-1 flex-row gap-4">
+				<div className={`flex w-full flex-1 flex-row gap-4 `}>
 					<div className="flex flex-col items-center">
-						<Link href={`/profile/${author.id}`} className="relative h-11 w-11">
+						<Link href={`/profile/${author.id}`} className={`relative h-11 w-11 `}>
 							<Image
 								src={author.image}
 								alt="user_community_image"
@@ -80,7 +70,7 @@ const ThreadCard = ({
 						<div className="thread-card_bar" />
 					</div>
 
-					<div className="flex w-full flex-col gap-y-3">
+					<div className={`flex w-full flex-col gap-y-3 ${isComment && "pt-2"}`}>
 						<Link href={`/profile/${author.id}`} className="w-fit">
 							<h4 className="cursor-pointer text-base-semibold text-light-1">
 								{author.name}
@@ -154,7 +144,7 @@ const ThreadCard = ({
 									displayedAuthors.add(author);
 
 									return (
-										<div key={index} className={`w-7 h-7 rounded-full`}>
+										<div key={index} className={`w-6 h-6 rounded-full`}>
 											<Image
 												src={author.image}
 												alt={`user_${index}`}

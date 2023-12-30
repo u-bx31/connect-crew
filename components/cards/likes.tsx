@@ -23,18 +23,19 @@ const Likes = ({
 
 	useEffect(() => {
 		try {
-			lk.map((item : any)=>{
-				if(user_Id === item){
-					setActiv(true)
-				}else{
-					setActiv(false)
-				}
-			})
+			const threadLIke = lk.filter((items: any) => user_Id === items);
+			console.log(threadLIke);
+			if (threadLIke[0] === user_Id) {
+				setActiv(true);
+			}
+			else{
+				setActiv(false)
+			}
 		} catch (error) {
-			console.error('Error in useEffect:', error);
+			console.error("Error in useEffect of likes:", error);
 		}
-	}, [lk, user_Id]);
-	
+	}, []);
+
 	const handleLikes = async () => {
 		if (!userId) {
 			push("/sign-in");
