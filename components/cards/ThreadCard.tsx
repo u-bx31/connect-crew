@@ -16,6 +16,7 @@ interface Props {
 	};
 	content: string;
 	parentId: string | null;
+	userAvaible?:boolean;
 	currentUser: any;
 	crew: {
 		id: string;
@@ -32,10 +33,12 @@ interface Props {
 	isComment?: boolean;
 	isCurrentThread?: boolean;
 	isLiked: boolean;
+	userOnBoarded?: boolean;
 }
 
 const ThreadCard = ({
 	id,
+	userAvaible,
 	currentUser,
 	content,
 	comments,
@@ -44,6 +47,7 @@ const ThreadCard = ({
 	createdAt,
 	parentId,
 	likes,
+	userOnBoarded,
 	lk,
 	isLiked,
 	isComment,
@@ -99,8 +103,10 @@ const ThreadCard = ({
 								<Likes
 									threadId={id}
 									lk={lk.map((it: any) => it?.userId.toString())}
+									user={userAvaible}
 									userId={currentUser?.id.toString()}
 									user_Id={currentUser?._id.toString()}
+									isOnBorded={userOnBoarded}
 									likes={lk.length}
 								/>
 

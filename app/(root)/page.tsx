@@ -11,7 +11,8 @@ export default async function Home() {
 	const user = await currentUser();
 
 	const userInfo = await fetchUser(user?.id || "");
-
+	const onBoarded = userInfo?.onboarded;
+	if (user && !onBoarded) redirect("/onboarding");
 	return (
 		<>
 			<h1 className="text-white">Home</h1>
@@ -31,6 +32,7 @@ export default async function Home() {
 								<ThreadCard
 									key={post._id.toString()}
 									id={post._id.toString()}
+									userAvaible={user ? true : false}
 									currentUser={userInfo}
 									content={post.text}
 									crew={post.crew}
@@ -40,6 +42,7 @@ export default async function Home() {
 									parentId={post.parentId}
 									isLiked={state}
 									lk={post.likes}
+									userOnBoarded={onBoarded}
 									likes={post.likes.length}
 								/>
 							);

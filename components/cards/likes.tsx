@@ -6,15 +6,19 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 const Likes = ({
 	threadId,
+	user,
 	userId,
 	likes,
 	user_Id,
 	lk,
+	isOnBorded
 }: {
 	threadId: string;
 	userId: string;
+	user ?: any;
 	likes: number;
 	user_Id: string;
+	isOnBorded? : boolean;
 	lk: any;
 }) => {
 	const [activ, setActiv] = useState<boolean>(false);
@@ -24,7 +28,6 @@ const Likes = ({
 	useEffect(() => {
 		try {
 			const threadLIke = lk.filter((items: any) => user_Id === items);
-			console.log(threadLIke);
 			if (threadLIke.length > 0 && threadLIke[0] === user_Id) {
 				setActiv(true);
 			}
@@ -39,8 +42,11 @@ const Likes = ({
 	const handleLikes = async () => {
 		if (!userId) {
 			push("/sign-in");
-		} else {
-			setActiv(!activ);
+		} 
+		if(user && !isOnBorded){
+			push('/onboarding')
+		}
+		setActiv(!activ);
 			setCount(activ ? count - 1 : count + 1);
 
 			await addLikesToThread({
@@ -48,7 +54,6 @@ const Likes = ({
 				userId: userId,
 				path: "/",
 			});
-		}
 	};
 
 	return (
