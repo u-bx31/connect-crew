@@ -3,6 +3,7 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation";
 
 import {
@@ -18,6 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ThreadValidation } from "@/lib/validations/thread";
 import { createPost } from "@/lib/actions/thread.actions";
 import { useOrganization } from "@clerk/nextjs";
+import { useState } from "react";
 
 interface Props {
 	userId: string;
@@ -26,6 +28,7 @@ const CreatePost = ({ userId }: Props) => {
 	const router = useRouter();
 	const pathname = usePathname();
 	const {organization} = useOrganization();
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const form = useForm<z.infer<typeof ThreadValidation>>({
 		resolver: zodResolver(ThreadValidation),
@@ -36,14 +39,16 @@ const CreatePost = ({ userId }: Props) => {
 	});
 
 	const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
+		setLoading(true)
     await createPost({
       author : userId,
       text : values.thread,
       crewId : organization ? organization.id : null,
       path : pathname,
-    })
-
-		router.push("/");
+    }).then((res)=>{
+			router.push("/");
+			setLoading(false)
+		})
 	};
 	return (
 		<Form {...form}>
@@ -66,7 +71,7 @@ const CreatePost = ({ userId }: Props) => {
 					)}
 				/>
 
-				<Button type="submit" className="bg-primary-500">
+				<Button type="submit" className="bg-primary-500" loading={loading} disabled={loading}>
 					Post Thread
 				</Button>
 			</form>

@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { CommentValidation } from "@/lib/validations/thread";
 import Image from "next/image";
 import { addCommentToThread } from "@/lib/actions/thread.actions";
+import { useState } from "react";
 
 
 interface Props {
@@ -30,7 +31,7 @@ const Comments = ({threadId , currentUserImg , currentUserId}: Props) => {
 
   const router = useRouter();
 	const pathname = usePathname();
-
+  const [loading, setLoading] = useState<boolean>(false);
 	const form = useForm<z.infer<typeof CommentValidation>>({
 		resolver: zodResolver(CommentValidation),
 		defaultValues: {
@@ -39,13 +40,17 @@ const Comments = ({threadId , currentUserImg , currentUserId}: Props) => {
 	});
 
 	const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
+    setLoading(true);
     await addCommentToThread({
       userId : currentUserId,
       commentText : values.thread,
       threadId  : threadId,
       path : pathname,
-    })
-    form.reset();
+    }).then((res)=>{
+      form.reset()
+      setLoading(false)
+    }
+    )
 	};
 
 	return(
@@ -73,9 +78,9 @@ const Comments = ({threadId , currentUserImg , currentUserId}: Props) => {
           </FormItem>
         )}
       />
-      <button type="submit" className="bg-primary-500 comment-form_btn">
+      <Button loading={loading} type="submit" className="bg-primary-500 comment-form_btn" disabled={loading}>
         Reply
-      </button>
+      </Button>
     </form>
   </Form>
   );
