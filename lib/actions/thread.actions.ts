@@ -212,6 +212,9 @@ export async function addCommentToThread({
 
 		await originalThread.save();
 
+		await User.findByIdAndUpdate(commentThread.author, {
+			$push: { threads: commentThread._id },
+		});
 		revalidatePath(path);
 	} catch (error: any) {
 		throw new Error(`Failed to add comment to a thread :${error.message}`);

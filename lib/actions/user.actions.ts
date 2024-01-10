@@ -85,6 +85,7 @@ export async function fetchUserPosts(userId: string) {
 						model: User,
 						select: "name image id",
 					},
+					
 				},
 				{
 					path: "reposted.originalThreadId",
@@ -95,8 +96,10 @@ export async function fetchUserPosts(userId: string) {
 						model: User,
 						select: "_id image name ",
 					},
-				}
+				},
+				
 			],
+			match: { parentId: { $exists: false } },
 		});
 		return threads;
 	} catch (error: any) {
@@ -144,6 +147,37 @@ export async function searchForUsers({
 }
 
 //user replies get all the thread that have parentId != ''
+
+export async function getUserReplies(userId: string) {
+	ConnectionToDb();
+	try {
+		const userThreads = await User.findOne({ id: userId });
+		if (userThreads) {
+			const userWithPopulatedThreads = await User.populate(userThreads, {
+				path: "threads",
+				model: Thread,
+				populate :
+					{
+						path : 'parentId',
+						model : Thread,
+						select : '_id author',
+						populate : {
+							path : 'author',
+							model : User,
+							select : '_id username image'
+						}
+					},
+				match: { parentId: { $ne: null } }, // Additional match condition for the 'threads'
+			});
+			return userWithPopulatedThreads
+		}else{
+			return []
+		}
+	} catch (error) {
+		console.error("Error fetching replies: ", error);
+		throw error;
+	}
+}
 
 export async function getActivity(userId: string) {
 	ConnectionToDb();

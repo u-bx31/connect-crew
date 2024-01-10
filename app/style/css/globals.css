@@ -20,7 +20,7 @@
 
   /* No Result */
   .no-result {
-    @apply text-center !text-base-regular text-light-3;
+    @apply text-center !text-base-semibold text-primary-500;
   }
 
   /* Community Card */

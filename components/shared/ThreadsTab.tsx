@@ -1,4 +1,4 @@
-import { fetchUserPosts } from "@/lib/actions/user.actions";
+import { fetchUserPosts, getUserReplies } from "@/lib/actions/user.actions";
 import ThreadCard from "../cards/ThreadCard";
 import { fetchCrewPosts } from "@/lib/actions/crew.actions";
 
@@ -13,12 +13,15 @@ const ThreadsTab = async ({ currentUserId, currentUserInfo , accountId , account
 	let response: any;
 	if (accountType === "Crew") {
 		response = await fetchCrewPosts(accountId);
-	} else {
+	} else if(accountType == 'User') {
 		response = await fetchUserPosts(accountId);
+	}
+	else {
+		response = await getUserReplies(accountId);
 	}
 	return (
 		<section className="mt-9 flex flex-col gap-10">
-			{response.threads.map((thread: any) => {
+			{response?.threads.map((thread: any) => {
 				let state;
 				if (thread.likes.length > 0) {
 					state = thread?.likes.map(
@@ -33,7 +36,7 @@ const ThreadsTab = async ({ currentUserId, currentUserInfo , accountId , account
 						parentId={thread.parentId}
 						content={thread.text}
 						author={
-							accountType === "User"
+							accountType === "User" || accountType === "UserReplies"
 								? { name: response.name, image: response.image, id: response.id }
 								: {
 										name: thread.author.name,
@@ -51,6 +54,9 @@ const ThreadsTab = async ({ currentUserId, currentUserInfo , accountId , account
 					/>
 				);
 			})}
+			{response?.threads.length == 0 &&
+				<h1 className="no-result text-center">No threads founded ...</h1>
+			}
 		</section>
 	);
 };
