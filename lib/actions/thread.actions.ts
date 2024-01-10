@@ -13,6 +13,13 @@ interface Props {
 	crewId: string | null;
 	path: string;
 }
+interface RepostedProps {
+	author: string;
+	text: string;
+	crewId: string | null;
+	threadId: string | null;
+	path: string;
+}
 interface CommentProps {
 	threadId: string;
 	commentText: string;
@@ -37,7 +44,7 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
 			.populate({ path: "author", model: User })
 			.populate({
 				path: "crew",
-				model: Community,
+				model: Crew,
 			})
 			.populate({
 				path: "children",
@@ -46,7 +53,23 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
 					model: User,
 					select: "_id image name parentId",
 				},
-			});
+			})
+			.populate({
+				path: "reposted.originalThreadId",
+				model: Thread,
+				select: "_id text author crew createdAt",
+				populate:[
+					{
+						path : 'author',
+						model : User,
+						select: "_id image name ",
+					},
+					{
+						path : 'crew',
+						model : Crew,
+					}
+				]
+			})
 
 		const totalPostsCount = await Thread.countDocuments({
 			parentId: { $in: [null, undefined] },
@@ -62,20 +85,38 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
 	}
 }
 
-export async function createPost({ text, author, crewId, path }: Props) {
+export async function createPost({
+	text,
+	author,
+	crewId,
+	path,
+	repostedInfo,
+}: Props & { repostedInfo?: { originalThreadId: string } }) {
 	ConnectionToDb();
 	try {
 		//search for crew by crewID
 		const CrewIdObject = await Crew.findOne({ id: crewId }, { _id: 1 });
-		const createdThread = await Thread.create({
+
+		const threadData = new Thread({
 			text,
 			author,
 			crew: CrewIdObject,
 		});
 
+		if (repostedInfo) {
+			threadData.reposted = {
+				originalThreadId: repostedInfo.originalThreadId,
+				repostedBy: author,
+				date: Date.now(),
+			};
+		}
+
+		const createdThread = await Thread.create(threadData);
+
 		await User.findByIdAndUpdate(author, {
 			$push: { threads: createdThread._id },
 		});
+
 		if (CrewIdObject) {
 			// Update Community model
 			await Crew.findByIdAndUpdate(CrewIdObject, {
@@ -85,7 +126,7 @@ export async function createPost({ text, author, crewId, path }: Props) {
 
 		// revalidatePath(path);
 	} catch (error: any) {
-		throw new Error(`Failed to create/update thread :${error.message}`);
+		throw new Error(`Failed to create/update thread: ${error.message}`);
 	}
 }
 
@@ -122,6 +163,21 @@ export async function fetchThreadById(id: string) {
 						},
 					},
 				],
+			}).populate({
+				path: "reposted.originalThreadId",
+				model: Thread,
+				select: "_id text author crew createdAt",
+				populate:[
+					{
+						path : 'author',
+						model : User,
+						select: "_id image name ",
+					},
+					{
+						path : 'crew',
+						model : Crew
+					}
+				]
 			})
 			.exec();
 

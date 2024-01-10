@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react"
+import { Loader2 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 import {
@@ -23,11 +23,12 @@ import { useState } from "react";
 
 interface Props {
 	userId: string;
+	threadId?: string;
 }
-const CreatePost = ({ userId }: Props) => {
+const CreatePost = ({ userId, threadId }: Props) => {
 	const router = useRouter();
 	const pathname = usePathname();
-	const {organization} = useOrganization();
+	const { organization } = useOrganization();
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const form = useForm<z.infer<typeof ThreadValidation>>({
@@ -39,16 +40,27 @@ const CreatePost = ({ userId }: Props) => {
 	});
 
 	const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
-		setLoading(true)
-    await createPost({
-      author : userId,
-      text : values.thread,
-      crewId : organization ? organization.id : null,
-      path : pathname,
-    }).then((res)=>{
+		setLoading(true);
+		let thread = threadId
+			? {
+					author: userId,
+					text: values.thread,
+					crewId: organization ? organization.id : null,
+					path: pathname,
+					repostedInfo: {
+						originalThreadId: threadId || "",
+					},
+			  }
+			: {
+					author: userId,
+					text: values.thread,
+					crewId: organization ? organization.id : null,
+					path: pathname,
+			  };
+		await createPost(thread).then((res) => {
 			router.push("/");
-			setLoading(false)
-		})
+			setLoading(false);
+		});
 	};
 	return (
 		<Form {...form}>
@@ -71,7 +83,11 @@ const CreatePost = ({ userId }: Props) => {
 					)}
 				/>
 
-				<Button type="submit" className="bg-primary-500" loading={loading} disabled={loading}>
+				<Button
+					type="submit"
+					className="bg-primary-500"
+					loading={loading}
+					disabled={loading}>
 					Post Thread
 				</Button>
 			</form>

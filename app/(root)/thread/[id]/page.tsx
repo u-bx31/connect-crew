@@ -47,6 +47,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 					createdAt={thread.createdAt}
 					comments={thread.children}
 					parentId={thread.parentId}
+					reposted={thread?.reposted.originalThreadId} 
 					isCurrentThread
 				/>
 			</div>

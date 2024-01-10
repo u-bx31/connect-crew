@@ -86,6 +86,16 @@ export async function fetchUserPosts(userId: string) {
 						select: "name image id",
 					},
 				},
+				{
+					path: "reposted.originalThreadId",
+					model: Thread,
+					select: "_id text author crew createdAt",
+					populate: {
+						path: "author",
+						model: User,
+						select: "_id image name ",
+					},
+				}
 			],
 		});
 		return threads;
@@ -132,6 +142,8 @@ export async function searchForUsers({
 		throw new Error(`Failed to search for users : ${error.message}`);
 	}
 }
+
+//user replies get all the thread that have parentId != ''
 
 export async function getActivity(userId: string) {
 	ConnectionToDb();

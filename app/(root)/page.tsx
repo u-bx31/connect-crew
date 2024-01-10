@@ -44,6 +44,7 @@ export default async function Home() {
 									lk={post.likes}
 									userOnBoarded={onBoarded}
 									likes={post.likes.length}
+									reposted={post?.reposted.originalThreadId} 
 								/>
 							);
 						})}

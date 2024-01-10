@@ -44,9 +44,10 @@ const ThreadsTab = async ({ currentUserId, currentUserInfo , accountId , account
 						isLiked={state}
 						lk={thread.likes}
 						likes={thread.likes.length}
-						crew={null}
+						crew={accountType === "User" && thread.crew}
 						createdAt={thread.createdAt}
 						comments={thread.children}
+						reposted={thread?.reposted.originalThreadId} 
 					/>
 				);
 			})}

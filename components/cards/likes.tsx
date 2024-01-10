@@ -11,14 +11,14 @@ const Likes = ({
 	likes,
 	user_Id,
 	lk,
-	isOnBorded
+	isOnBorded,
 }: {
 	threadId: string;
 	userId: string;
-	user ?: any;
+	user?: any;
 	likes: number;
 	user_Id: string;
-	isOnBorded? : boolean;
+	isOnBorded?: boolean;
 	lk: any;
 }) => {
 	const [activ, setActiv] = useState<boolean>(false);
@@ -30,23 +30,24 @@ const Likes = ({
 			const threadLIke = lk.filter((items: any) => user_Id === items);
 			if (threadLIke.length > 0 && threadLIke[0] === user_Id) {
 				setActiv(true);
-			}
-			else{
-				setActiv(false)
+			} else {
+				setActiv(false);
 			}
 		} catch (error) {
 			console.error("Error in useEffect of likes:", error);
 		}
-	}, [,userId]);
+	}, [, userId]);
 
 	const handleLikes = async () => {
+		console.log('likes',userId);
 		if (!userId) {
 			push("/sign-in");
-		} 
-		if(user && !isOnBorded){
-			push('/onboarding')
 		}
-		setActiv(!activ);
+		if (user && !isOnBorded) {
+			push("/onboarding");
+		}
+		if (userId) {
+			setActiv(!activ);
 			setCount(activ ? count - 1 : count + 1);
 
 			await addLikesToThread({
@@ -54,6 +55,7 @@ const Likes = ({
 				userId: userId,
 				path: "/",
 			});
+		}
 	};
 
 	return (

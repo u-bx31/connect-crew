@@ -34,9 +34,15 @@ const threadSchema = new mongoose.Schema({
 				ref: "User",
 				required: true,
 			},
-			date: { type: Date, default: Date.now},
+			date: { type: Date, default: Date.now },
 		},
 	],
+	reposted: {
+		originalThreadId: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Thread",
+		},
+	},
 });
 
 const Thread = mongoose.models.Thread || mongoose.model("Thread", threadSchema);
