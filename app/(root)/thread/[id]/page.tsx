@@ -26,7 +26,9 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
 	//get thread info by fetching with param id
 	const thread = await fetchThreadById(params?.id);
-	const shareableLink = `${process.env.NEXT_PUBLIC_BASE_URL}${thread._id.toString()}`;
+	const shareableLink = `${
+		process.env.NEXT_PUBLIC_BASE_URL
+	}${thread._id.toString()}`;
 	let state;
 	if (thread.likes.length > 0) {
 		state = thread.likes.map(
@@ -35,6 +37,20 @@ const Page = async ({ params }: { params: { id: string } }) => {
 	}
 	return (
 		<section className="relative">
+			<Head>
+				<title>{thread.author.name}</title>
+				<meta name="description" content={thread.text} />
+				{/* Open Graph tags */}
+				<meta property="og:title" content={thread.author.name} />
+				<meta property="og:description" content={thread.text} />
+				<meta property="og:url" content={shareableLink} />
+				<meta property="og:type" content="article" />
+				{/* URL to an image to display */}
+				{/* Twitter Card tags */}
+				<meta name="twitter:title" content={thread.author.name} />
+				<meta name="twitter:description" content={thread.text} />
+				<meta name="twitter:url" content={shareableLink} />
+			</Head>
 			<div>
 				<ThreadCard
 					key={thread._id.toString()}
