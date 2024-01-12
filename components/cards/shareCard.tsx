@@ -19,7 +19,7 @@ import { useState } from "react";
 import { X } from "@/public/assets";
 
 const ShareCard = ({ threadId }: { threadId: string }) => {
-	const shareableLink = `${process.env.NEXT_PUBLIC_TEST_URL}/thread/${threadId}`;
+	const shareableLink = `${process.env.NEXT_PUBLIC_BASE_URL}/thread/${threadId}`;
 
 	const handleTwitterShare = () => {
 		const tweetText = "Check out this awesome thread!"; // Replace with your own tweet text

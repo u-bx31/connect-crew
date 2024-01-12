@@ -32,14 +32,6 @@ export async function generateMetadata(
 		openGraph : {
 			images : "https://metatags.io/images/meta-tags.png"
 		},
-		twitter : {
-			title : `Thread Section | ConnectCrew`,
-			description: thread.text,
-			card : "summary",
-			site : 'sdfsdfsdfsdf',
-			images : 'https://metatags.io/images/meta-tags.png'
-
-		}
   }
 }
 
