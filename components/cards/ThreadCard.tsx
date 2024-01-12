@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Likes from "./likes";
 import RepostedThreadCard from "./RepostedThreadCard";
+import ShareCard from "./shareCard";
 
 interface Props {
 	id: string;
@@ -167,13 +168,14 @@ const ThreadCard = ({
 												/>
 											</Link>
 
-											<Image
+											{/* <Image
 												src="/assets/share.svg"
 												alt="heart"
 												width={24}
 												height={24}
 												className="cursor-not-allowed object-contain"
-											/>
+											/> */}
+											<ShareCard threadId={id} />
 										</div>
 									</div>
 									<div

@@ -4,10 +4,12 @@ import { fetchThreadById } from "@/lib/actions/thread.actions";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 import { Metadata } from "next";
+import Head from "next/head";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
 	title: "Thread Section | ConnectCrew",
+	description: "text",
 };
 
 const Page = async ({ params }: { params: { id: string } }) => {
@@ -16,15 +18,15 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
 	//verify if we have user
 	const user = await currentUser();
-	if (!user) return null;
+	// if (!user) return null;
 
 	//verify if user is onborded
-	const userInfo = await fetchUser(user?.id);
-	if (!userInfo?.onboarded) redirect("/onboarding");
+	const userInfo = await fetchUser(user?.id || "");
+	if (user && !userInfo?.onboarded) redirect("/onboarding");
 
 	//get thread info by fetching with param id
 	const thread = await fetchThreadById(params?.id);
-
+	const shareableLink = `${process.env.NEXT_PUBLIC_BASE_URL}${thread._id.toString()}`;
 	let state;
 	if (thread.likes.length > 0) {
 		state = thread.likes.map(
@@ -47,17 +49,20 @@ const Page = async ({ params }: { params: { id: string } }) => {
 					createdAt={thread.createdAt}
 					comments={thread.children}
 					parentId={thread.parentId}
-					reposted={thread?.reposted.originalThreadId} 
+					reposted={thread?.reposted.originalThreadId}
 					isCurrentThread
 				/>
 			</div>
-			<div className=" mt-7">
-				<Comments
-					threadId={thread._id.toString()}
-					currentUserImg={userInfo?.image}
-					currentUserId={userInfo?._id.toString()}
-				/>
-			</div>
+			{userInfo?.onboarded && (
+				<div className=" mt-7">
+					<Comments
+						threadId={thread._id.toString()}
+						currentUserImg={userInfo?.image}
+						currentUserId={userInfo?._id.toString()}
+					/>
+				</div>
+			)}
+
 			<div className=" mt-10">
 				{thread?.children.map((items: any) => {
 					let state;
