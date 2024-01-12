@@ -3,14 +3,45 @@ import Comments from "@/components/forms/Comments";
 import { fetchThreadById } from "@/lib/actions/thread.actions";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
-import { Metadata } from "next";
+import { Metadata, ResolvingMetadata } from "next";
 import Head from "next/head";
 import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-	title: "Thread Section | ConnectCrew",
-	description: "text",
-};
+// export const metadata: Metadata = {
+// 	title: "Thread Section | ConnectCrew",
+// 	description: ``,
+// };
+type Props = {
+  params: { id: string }
+}
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const id = params.id
+  // fetch data
+  const thread = await fetchThreadById(params?.id);
+ 
+  // // optionally access and extend (rather than replace) parent metadata
+  // const previousImages = (await parent).openGraph?.images || []
+ 
+  return {
+    title: `Thread Section | ConnectCrew`,
+    description: thread.text,
+		openGraph : {
+			images : "https://metatags.io/images/meta-tags.png"
+		},
+		twitter : {
+			title : `Thread Section | ConnectCrew`,
+			description: thread.text,
+			card : "summary",
+			site : 'sdfsdfsdfsdf',
+			images : 'https://metatags.io/images/meta-tags.png'
+
+		}
+  }
+}
 
 const Page = async ({ params }: { params: { id: string } }) => {
 	//verify if we have thread id
@@ -37,20 +68,6 @@ const Page = async ({ params }: { params: { id: string } }) => {
 	}
 	return (
 		<section className="relative">
-			<Head>
-				<title>{thread.author.name}</title>
-				<meta name="description" content={thread.text} />
-				{/* Open Graph tags */}
-				<meta property="og:title" content={thread.author.name} />
-				<meta property="og:description" content={thread.text} />
-				<meta property="og:url" content={shareableLink} />
-				<meta property="og:type" content="article" />
-				{/* URL to an image to display */}
-				{/* Twitter Card tags */}
-				<meta name="twitter:title" content={thread.author.name} />
-				<meta name="twitter:description" content={thread.text} />
-				<meta name="twitter:url" content={shareableLink} />
-			</Head>
 			<div>
 				<ThreadCard
 					key={thread._id.toString()}
