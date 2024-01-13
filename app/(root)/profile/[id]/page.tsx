@@ -4,8 +4,32 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { profileTabs } from "@/constants";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
+import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+
+type Props = {
+  params: { id: string }
+}
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // fetch data
+  const userInfo = await fetchUser(params.id);
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || []
+  return {
+    title: `${userInfo.name} Profile`,
+    description: `${userInfo.name} profile in ${process.env.NEXT_PUBLIC_APP_NAME}`,
+		openGraph : {
+			title : `${userInfo.name} Profile`,	
+			description: `${userInfo.name} profile in ${process.env.NEXT_PUBLIC_APP_NAME}`,
+			images: [userInfo.image, ...previousImages],
+		},
+  }
+}
+
 
 const Page = async ({ params }: { params: { id: string } }) => {
 	//verify if we have thread id

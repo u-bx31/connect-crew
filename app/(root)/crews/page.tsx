@@ -8,6 +8,15 @@ import { redirect } from "next/navigation";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { fetchCrews} from "@/lib/actions/crew.actions";
 import CrewCard from "@/components/cards/crewsCard";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: `Crew | ${process.env.NEXT_PUBLIC_APP_NAME}`,
+	description: `Display all the Crew on ${process.env.NEXT_PUBLIC_APP_NAME}`,
+	openGraph : {
+		images : '/connectCrew_img.jpg'
+	}
+};
 
 async function Page({
   searchParams,

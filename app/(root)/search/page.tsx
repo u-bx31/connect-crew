@@ -1,7 +1,16 @@
 import UserCard from "@/components/cards/UserCard";
 import { fetchUser, searchForUsers } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+	title: `Search | ${process.env.NEXT_PUBLIC_APP_NAME}`,
+	description: `Search for all the users that using ${process.env.NEXT_PUBLIC_APP_NAME}`,
+	openGraph : {
+		images : '/connectCrew_img.jpg'
+	}
+};
 
 const Page = async () => {
 

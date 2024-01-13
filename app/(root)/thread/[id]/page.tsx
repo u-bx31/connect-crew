@@ -18,19 +18,18 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  // read route params
-  const id = params.id
   // fetch data
   const thread = await fetchThreadById(params?.id);
- 
-  // // optionally access and extend (rather than replace) parent metadata
-  // const previousImages = (await parent).openGraph?.images || []
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || []
  
   return {
-    title: `Thread Section | ConnectCrew`,
+    title: `Thread Section | ${process.env.NEXT_PUBLIC_APP_NAME}`,
     description: thread.text,
 		openGraph : {
-			images : "https://metatags.io/images/meta-tags.png"
+			title : `Thread Section | ${process.env.NEXT_PUBLIC_APP_NAME}`,	
+			description: thread.text,
+			images: ['/connectCrew_img.jpg', ...previousImages],
 		},
   }
 }

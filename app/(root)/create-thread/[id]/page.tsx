@@ -3,7 +3,30 @@ import CreatePost from "@/components/forms/CreatePost";
 import { fetchThreadById } from "@/lib/actions/thread.actions";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
+import { Metadata, ResolvingMetadata } from "next";
 import { redirect } from "next/navigation";
+
+type Props = {
+	params: { id: string };
+};
+export async function generateMetadata(
+	{ params }: Props,
+	parent: ResolvingMetadata
+): Promise<Metadata> {
+	// fetch data
+	const thread = await fetchThreadById(params?.id);
+	// optionally access and extend (rather than replace) parent metadata
+	const previousImages = (await parent).openGraph?.images || [];
+	return {
+		title: `Repost ${thread.author.name} thread`,
+		description: `Repost new thread of user in app`,
+		openGraph: {
+			title: `Repost ${thread.author.name} thread`,
+			description: `Repost new thread of user in app`,
+			images: ['/connectCrew_img.jpg', ...previousImages],
+		},
+	};
+}
 
 async function page({ params }: { params: { id: string } }) {
 	const user = await currentUser();
@@ -28,7 +51,10 @@ async function page({ params }: { params: { id: string } }) {
 				isRpostedThread
 				isCurrentThread
 			/>
-			<CreatePost userId={userInfo._id.toString()} threadId={thread._id.toString()} />
+			<CreatePost
+				userId={userInfo._id.toString()}
+				threadId={thread._id.toString()}
+			/>
 		</div>
 	);
 }

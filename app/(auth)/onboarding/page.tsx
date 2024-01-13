@@ -1,7 +1,13 @@
 import AccountProfile from "@/components/forms/AccountProfile";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+	title: `Onboarding | ${process.env.NEXT_PUBLIC_APP_NAME}`,
+	description: `Finish creating your account in ${process.env.NEXT_PUBLIC_APP_NAME}`,
+};
 
 const Onboarding = async () => {
 

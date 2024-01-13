@@ -7,20 +7,32 @@ import {
 	DialogDescription,
 	DialogFooter,
 	DialogHeader,
+	DialogOverlay,
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import dynamic from "next/dynamic";
-import { Copy, Facebook, Instagram, Twitter } from "lucide-react";
-import { useState } from "react";
+import { Copy, Facebook } from "lucide-react";
 import { X } from "@/public/assets";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-const ShareCard = ({ threadId }: { threadId: string }) => {
+const ShareCard = ({
+	threadId,
+	user,
+	userId,
+	isOnBorded,
+}: {
+	threadId: string;
+	userId: string;
+	user?: any;
+	isOnBorded?: boolean;
+}) => {
 	const shareableLink = `${process.env.NEXT_PUBLIC_BASE_URL}/thread/${threadId}`;
-
+	const { push } = useRouter();
+	const [open, setOpen] = useState(false);
 	const handleTwitterShare = () => {
 		const tweetText = "Check out this awesome thread!"; // Replace with your own tweet text
 		const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
@@ -36,18 +48,23 @@ const ShareCard = ({ threadId }: { threadId: string }) => {
 		window.open(facebookUrl, "_blank");
 	};
 
-	const handleInstagramShare = () => {
-		const instagramUrl = `https://www.instagram.com/?url=${encodeURIComponent(
-			shareableLink
-		)}`;
-		window.open(instagramUrl, "_blank");
-	};
 	const handleCopy = () => {
 		navigator.clipboard.writeText(shareableLink);
 	};
+	const handleClick = () => {
+		if (!userId) {
+			push("/sign-in");
+		}
+		if (user && !isOnBorded) {
+			push("/onboarding");
+		}
+		if(userId){
+			setOpen(!open)
+		}
+	};
 	return (
-		<Dialog>
-			<DialogTrigger className="bg-transparent pt-1">
+		<Dialog open={open} onOpenChange={handleClick}>
+			<DialogTrigger  className="bg-transparent pt-1">
 				<Image
 					src="/assets/share.svg"
 					alt="share"
@@ -56,7 +73,8 @@ const ShareCard = ({ threadId }: { threadId: string }) => {
 					className="object-contain"
 				/>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-md">
+			<DialogContent  className="sm:max-w-md">
+				<DialogClose asChild onClick={()=>setOpen(!open)}></DialogClose>
 				<DialogHeader>
 					<DialogTitle>Share link</DialogTitle>
 					<DialogDescription>
@@ -64,10 +82,14 @@ const ShareCard = ({ threadId }: { threadId: string }) => {
 					</DialogDescription>
 				</DialogHeader>
 				<div className="flex flex-row gap-2 w-100 my-2">
-					<button onClick={handleFacebookShare} className="flex items-center justify-center w-full bg-blue-700 p-3 rounded-md">
+					<button
+						onClick={handleFacebookShare}
+						className="flex items-center justify-center w-full bg-blue-700 p-3 rounded-md">
 						<Facebook className="w-6 h-6 stroke-white stroke-[1.5px]" />
 					</button>
-					<button onClick={handleTwitterShare} className="flex items-center justify-center w-full bg-dark-3 p-3 rounded-md ">
+					<button
+						onClick={handleTwitterShare}
+						className="flex items-center justify-center w-full bg-dark-3 p-3 rounded-md ">
 						<X className="w-6 h-6 stroke-white stroke-[1px]" />
 					</button>
 				</div>

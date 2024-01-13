@@ -62,8 +62,7 @@ const ThreadCard = ({
 	const displayedAuthors = new Set();
 	const undisplayedAuthors = [];
 	return (
-		<article
-			className={`rounded-md ${isComment ? "px-0 xs:px-7" : "bg-dark-2"}`}>
+		<article className={`rounded-md ${isComment ? "px-0 xs:px-7" : "bg-dark-2"}`}>
 			{typeof parentId == "object" && parentId != null && (
 				<Link
 					className="flex flex-row gap-1 p-1 bg-gray-500 items-center w-100  rounded-md "
@@ -77,7 +76,9 @@ const ThreadCard = ({
 						/>
 					</div>
 					<p className="text-white text-small-semibold">
-						Reply to <span className="text-blue-200">@{parentId?.author?.username}</span> Thread
+						Reply to{" "}
+						<span className="text-blue-200">@{parentId?.author?.username}</span>{" "}
+						Thread
 					</p>
 				</Link>
 			)}
@@ -175,7 +176,12 @@ const ThreadCard = ({
 												height={24}
 												className="cursor-not-allowed object-contain"
 											/> */}
-											<ShareCard threadId={id} />
+											<ShareCard
+												threadId={id}
+												user={userAvaible}
+												userId={currentUser?.id.toString()}
+												isOnBorded={userOnBoarded}
+											/>
 										</div>
 									</div>
 									<div
