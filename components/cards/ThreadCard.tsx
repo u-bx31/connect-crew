@@ -62,7 +62,7 @@ const ThreadCard = ({
 	const displayedAuthors = new Set();
 	const undisplayedAuthors = [];
 	return (
-		<article className={`rounded-md ${isComment ? "px-0 xs:px-7" : "bg-dark-2"}`}>
+		<article className={`rounded-md ${isComment ? "px-0 xs:px-7" : "bg-dark-2 p-7"}`}>
 			{typeof parentId == "object" && parentId != null && (
 				<Link
 					className="flex flex-row gap-1 p-1 bg-gray-500 items-center w-100  rounded-md "
@@ -82,7 +82,7 @@ const ThreadCard = ({
 					</p>
 				</Link>
 			)}
-			<div className={`flex flex-col w-full rounded-md p-7`}>
+			<div className={`flex flex-col w-full rounded-md `}>
 				<div className="flex items-start justify-between">
 					<div className={`flex w-full flex-1 flex-row gap-4 `}>
 						<div className="flex flex-col items-center">
