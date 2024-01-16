@@ -14,10 +14,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Copy, Facebook } from "lucide-react";
+import { Check, Copy, Facebook } from "lucide-react";
 import { X } from "@/public/assets";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "@/components/ui/use-toast";
 
 const ShareCard = ({
 	threadId,
@@ -33,6 +34,7 @@ const ShareCard = ({
 	const shareableLink = `${process.env.NEXT_PUBLIC_BASE_URL}/thread/${threadId}`;
 	const { push } = useRouter();
 	const [open, setOpen] = useState(false);
+	const [success, setSuccess] = useState(false);
 	const handleTwitterShare = () => {
 		const tweetText = "Check out this awesome thread!"; // Replace with your own tweet text
 		const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
@@ -49,7 +51,14 @@ const ShareCard = ({
 	};
 
 	const handleCopy = () => {
+		setSuccess(true);
 		navigator.clipboard.writeText(shareableLink);
+		setTimeout(() => {
+			setSuccess(false);
+		}, 1000);
+		toast({
+			description: "Link copied to your clipboard",
+		});
 	};
 	const handleClick = () => {
 		if (!userId) {
@@ -58,13 +67,13 @@ const ShareCard = ({
 		if (user && !isOnBorded) {
 			push("/onboarding");
 		}
-		if(userId){
-			setOpen(!open)
+		if (userId) {
+			setOpen(!open);
 		}
 	};
 	return (
 		<Dialog open={open} onOpenChange={handleClick}>
-			<DialogTrigger  className="bg-transparent pt-1">
+			<DialogTrigger className="bg-transparent pt-1">
 				<Image
 					src="/assets/share.svg"
 					alt="share"
@@ -73,8 +82,8 @@ const ShareCard = ({
 					className="object-contain"
 				/>
 			</DialogTrigger>
-			<DialogContent  className="sm:max-w-md">
-				<DialogClose asChild onClick={()=>setOpen(!open)}></DialogClose>
+			<DialogContent className="sm:max-w-md">
+				<DialogClose asChild onClick={() => setOpen(!open)}></DialogClose>
 				<DialogHeader>
 					<DialogTitle>Share link</DialogTitle>
 					<DialogDescription>
@@ -102,7 +111,7 @@ const ShareCard = ({
 					</div>
 					<Button type="button" size="sm" className="px-3" onClick={handleCopy}>
 						<span className="sr-only">Copy</span>
-						<Copy className="h-4 w-4" />
+						{success ? <Check className="h-4 w-4 transition-all duration-1000 ease-in " /> : <Copy className="h-4 w-4 transition-all duration-1000 ease-in" />}
 					</Button>
 				</div>
 			</DialogContent>

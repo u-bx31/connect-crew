@@ -20,6 +20,7 @@ import { ThreadValidation } from "@/lib/validations/thread";
 import { createPost } from "@/lib/actions/thread.actions";
 import { useOrganization } from "@clerk/nextjs";
 import { useState } from "react";
+import { toast } from "@/components/ui/use-toast";
 
 interface Props {
 	userId: string;
@@ -59,6 +60,11 @@ const CreatePost = ({ userId, threadId }: Props) => {
 			  };
 		await createPost(thread).then((res) => {
 			router.push("/");
+			toast({
+				title: "thread created sucessfuly",
+				icon: true,
+				variant: "success",
+			});
 			setLoading(false);
 		});
 	};

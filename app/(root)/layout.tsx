@@ -7,6 +7,7 @@ import TopBar from "@/components/shared/Topbar";
 import LeftSideBar from "@/components/shared/LeftSideBar";
 import RightSideBar from "@/components/shared/RightSideBar";
 import BottomBar from "@/components/shared/BottomBar";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,6 +38,7 @@ export default async function RootLayout({
 							<div className="w-full max-w-4xl">{children}</div>
 						</section>
 						{/* <RightSideBar /> */}
+						<Toaster />
 					</main>
 					<BottomBar />
 				</body>
