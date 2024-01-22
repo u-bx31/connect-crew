@@ -21,7 +21,7 @@ const UserCard = ({ key, id, imageUrl, username, name, personType }: Props) => {
 		start();
 		setTimeout(() => {
 			done()
-		}, 9000);
+		}, 10000);
 
 	}
 	return (

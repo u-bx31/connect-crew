@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { SignOutButton, SignedIn, useAuth } from "@clerk/nextjs";
+import {start,done} from 'nprogress';
+
 const LeftSideBar = () => {
 	const router = useRouter();
 	const pathname = usePathname();
@@ -35,6 +37,10 @@ const LeftSideBar = () => {
 					<SignOutButton
 						signOutCallback={() => {
 							router.push("/");
+							start()
+							setTimeout(() => {
+								done()
+							}, 9000);
 						}}>
 						<div className="flex cursor-pointer gap-4 p-4">
 							<Image src="/assets/logout.svg" alt="logout" width={24} height={24} />
