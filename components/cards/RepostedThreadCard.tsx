@@ -19,9 +19,7 @@ interface Props{
 const RepostedThreadCard = ({id,authorId,authorName,text,authorImage,createdAt,crewId,crewImage,crewName}:Props) => {
   const [loading, setLoading] = useState(true);
   useEffect(()=>{
-    if(id){
-      setLoading(false)
-    }
+		setLoading(false)
   },[id])
   if(loading){
     return <Link href={'#'} className="p-2 border border-gray-600 rounded-md">

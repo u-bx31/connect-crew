@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import {start,done} from 'nprogress';
+import {start} from 'nprogress';
 
 
 interface Props {
@@ -19,10 +19,6 @@ const UserCard = ({ key, id, imageUrl, username, name, personType }: Props) => {
 	const handleView = ()=>{
 		push(`/profile/${id}`)
 		start();
-		setTimeout(() => {
-			done()
-		}, 10000);
-
 	}
 	return (
 		<div className="user-card">

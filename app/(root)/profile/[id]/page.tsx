@@ -32,7 +32,6 @@ export async function generateMetadata(
 
 
 const Page = async ({ params }: { params: { id: string } }) => {
-	done()
 	//verify if we have thread id
 	if (!params.id) return null;
 
@@ -42,6 +41,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
 	//verify if user is onborded
 	const userInfo = await fetchUser(params.id);
+	if(userInfo) done();
 	if (!userInfo?.onboarded) redirect("/onboarding");
 
 	return (

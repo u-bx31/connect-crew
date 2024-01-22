@@ -3,9 +3,11 @@ import { fetchPosts } from "@/lib/actions/thread.actions";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
+import {done} from 'nprogress';
 
 export default async function Home() {
 	const response = await fetchPosts(1, 30);
+	if(response) done()
 	// console.log("Response:", response.posts);
 
 	const user = await currentUser();

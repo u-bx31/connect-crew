@@ -38,9 +38,6 @@ const LeftSideBar = () => {
 						signOutCallback={() => {
 							router.push("/");
 							start()
-							setTimeout(() => {
-								done()
-							}, 9000);
 						}}>
 						<div className="flex cursor-pointer gap-4 p-4">
 							<Image src="/assets/logout.svg" alt="logout" width={24} height={24} />
