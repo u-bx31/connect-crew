@@ -65,7 +65,7 @@ const ThreadCard = ({
 		<article className={`rounded-md ${isComment ? "px-0 xs:px-7" : "bg-dark-2 p-7"}`}>
 			{typeof parentId == "object" && parentId != null && (
 				<Link
-					className="flex flex-row gap-1 p-1 bg-gray-500 items-center w-100  rounded-md "
+					className="flex flex-row gap-1 p-1 mb-2 bg-gray-500 items-center w-100  rounded-md "
 					href={`/thread/${parentId?._id}`}>
 					<div className={`relative h-7 w-7 rounded-full `}>
 						<Image
