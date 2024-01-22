@@ -55,10 +55,10 @@ async function Page({ params }: { params: { id: string } }) {
 			/>
 
 			<div className="mt-9">
-				<Tabs defaultValue="threads" className="w-full">
+				<Tabs defaultValue="threads" className="w-full" >
 					<TabsList className="tab p-0">
 						{crewTabs.map((tab) => (
-							<TabsTrigger key={tab.label} value={tab.value} className="tab">
+							<TabsTrigger key={tab.label} value={tab.value} className="tab" disabled={tab.value == 'requests' }>
 								<Image
 									src={tab.icon}
 									alt={tab.label}
@@ -66,13 +66,7 @@ async function Page({ params }: { params: { id: string } }) {
 									height={24}
 									className="object-contain"
 								/>
-								<p className="max-sm:hidden">{tab.label}</p>
-
-								{tab.label === "Threads" && (
-									<p className="ml-1 rounded-full bg-primary-500 px-4 py-1 !text-tiny-medium text-light-2">
-										{crewDetails.threads.length}
-									</p>
-								)}
+								<p className="max-sm:hidden">{tab.label }</p>
 							</TabsTrigger>
 						))}
 					</TabsList>

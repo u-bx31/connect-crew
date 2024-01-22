@@ -7,7 +7,7 @@ import { currentUser } from "@clerk/nextjs";
 import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-
+import {start,done} from 'nprogress';
 type Props = {
   params: { id: string }
 }
@@ -32,6 +32,7 @@ export async function generateMetadata(
 
 
 const Page = async ({ params }: { params: { id: string } }) => {
+	done()
 	//verify if we have thread id
 	if (!params.id) return null;
 
@@ -60,13 +61,13 @@ const Page = async ({ params }: { params: { id: string } }) => {
 					<TabsList className="tab p-0">
 						{profileTabs.map((tab) => {
 							return (
-								<TabsTrigger key={tab.label} value={tab.value} className="tab">
+								<TabsTrigger key={tab.label} value={tab.value} disabled={tab.value == 'tagged' } className={`tab`}>
 									<Image
 										src={tab.icon}
 										alt={tab.label}
 										width={24}
 										height={24}
-										className="object-contain"
+										className={`object-contain`}
 									/>
 									<p className="max-sm:hidden">{tab.label}</p>
 									

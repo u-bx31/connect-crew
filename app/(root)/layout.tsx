@@ -8,6 +8,7 @@ import LeftSideBar from "@/components/shared/LeftSideBar";
 import RightSideBar from "@/components/shared/RightSideBar";
 import BottomBar from "@/components/shared/BottomBar";
 import { Toaster } from "@/components/ui/toaster";
+import NextTopLoader from 'nextjs-toploader';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,6 +33,7 @@ export default async function RootLayout({
 				</Head>
 				<body className={inter.className} suppressHydrationWarning={true}>
 					<TopBar />
+					<NextTopLoader showSpinner={false} />
 					<main className="flex flex-row">
 						<LeftSideBar />
 						<section className="main-container">
