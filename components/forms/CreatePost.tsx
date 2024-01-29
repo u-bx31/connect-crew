@@ -21,6 +21,7 @@ import { createPost } from "@/lib/actions/thread.actions";
 import { useOrganization } from "@clerk/nextjs";
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
+import Tiptap from "../tiptap/TipTap";
 
 interface Props {
 	userId: string;
@@ -31,21 +32,16 @@ const CreatePost = ({ userId, threadId }: Props) => {
 	const pathname = usePathname();
 	const { organization } = useOrganization();
 	const [loading, setLoading] = useState<boolean>(false);
+	const [content, setContent] = useState("");
+	const [clearContentFlag, setClearContentFlag] = useState(false);
+	const [error, setError] = useState(false);
 
-	const form = useForm<z.infer<typeof ThreadValidation>>({
-		resolver: zodResolver(ThreadValidation),
-		defaultValues: {
-			thread: "",
-			accountId: userId,
-		},
-	});
-
-	const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
+	const onSubmit = async () => {
 		setLoading(true);
 		let thread = threadId
 			? {
 					author: userId,
-					text: values.thread,
+					text: content,
 					crewId: organization ? organization.id : null,
 					path: pathname,
 					repostedInfo: {
@@ -54,50 +50,44 @@ const CreatePost = ({ userId, threadId }: Props) => {
 			  }
 			: {
 					author: userId,
-					text: values.thread,
+					text: content,
 					crewId: organization ? organization.id : null,
 					path: pathname,
 			  };
-		await createPost(thread).then((res) => {
-			router.push("/");
-			toast({
-				title: "thread created sucessfuly",
-				icon: true,
-				variant: "success",
+		if (content !== "<p></p>" && content != "") {
+			await createPost(thread).then((res) => {
+				router.push("/");
+				toast({
+					title: "thread created sucessfuly",
+					icon: true,
+					variant: "success",
+				});
+				setLoading(false);
 			});
+		} else {
 			setLoading(false);
-		});
+			setError(true);
+		}
 	};
 	return (
-		<Form {...form}>
-			<form
-				className="mt-10 flex flex-col justify-start gap-10"
-				onSubmit={form.handleSubmit(onSubmit)}>
-				<FormField
-					control={form.control}
-					name="thread"
-					render={({ field }) => (
-						<FormItem className="flex w-full flex-col gap-3">
-							<FormLabel className="text-base-semibold text-light-2">
-								Content
-							</FormLabel>
-							<FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
-								<Textarea rows={15} {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+		<div className="mt-10 flex flex-col justify-start gap-10">
+			<Tiptap
+				content={content}
+				setContent={setContent}
+				clearContentFlag={clearContentFlag}
+				setClearContentFlag={setClearContentFlag}
+				error={error}
+			/>
 
-				<Button
-					type="submit"
-					className="bg-primary-500"
-					loading={loading}
-					disabled={loading}>
-					Post Thread
-				</Button>
-			</form>
-		</Form>
+			<Button
+				type="button"
+				className="bg-primary-500"
+				loading={loading}
+				onClick={() => onSubmit()}
+				disabled={loading}>
+				Post Thread
+			</Button>
+		</div>
 	);
 };
 

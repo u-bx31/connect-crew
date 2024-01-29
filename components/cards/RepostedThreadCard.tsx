@@ -67,9 +67,7 @@ const RepostedThreadCard = ({id,authorId,authorName,text,authorImage,createdAt,c
 							</Link>
 						)}
 					</Link>
-					<p className="text-small-regular text-light-2">
-						{text}
-					</p>
+					<div className="prose-sm leading-5 prose-white max-w-none text-light-2" dangerouslySetInnerHTML={{ __html: text }}/>
 				</div>
 			</div>
 		</Link>

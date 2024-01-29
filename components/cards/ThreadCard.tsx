@@ -133,7 +133,7 @@ const ThreadCard = ({
 								/>
 							)}
 
-							<p className="text-small-regular text-light-2">{content}</p>
+							<div className="prose prose-sm prose-white leading-5 max-w-none w-auto text-light-2 " dangerouslySetInnerHTML={{ __html: content }} />
 							{!isRpostedThread && (
 								<>
 									<div className={`flex flex-col gap-3`}>
