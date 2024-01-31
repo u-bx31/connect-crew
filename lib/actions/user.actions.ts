@@ -91,11 +91,17 @@ export async function fetchUserPosts(userId: string) {
 					path: "reposted.originalThreadId",
 					model: Thread,
 					select: "_id text author crew createdAt",
-					populate: {
-						path: "author",
-						model: User,
-						select: "_id image name ",
-					},
+					populate: [
+						{
+							path: "author",
+							model: User,
+							select: "_id image name ",
+						},
+						{
+							path : 'crew',
+							model : Crew,
+						}
+					],
 				},
 				
 			],
