@@ -14,7 +14,7 @@ This project was generated with [NextJS](https://nextjs.org/docs/getting-started
 - [Overview](#overview)
   - [About Project](#about-project)
   - [Links](#links)
-  - [Test Account] (#test-account)
+  - [Test Account](#test-account)
 - [App process](#app-process)
   - [Built with](#built-with)
   - [Requirement](#Requirement)

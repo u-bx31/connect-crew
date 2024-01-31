@@ -24,7 +24,7 @@ const TopBar = () => {
 			</Link>
 			<div className="flex items-center gap-1">
 				{!isSignedIn && (
-					<Button variant="secondary" onClick={() => push("/sign-in")}>
+					<Button variant={'custom'} onClick={() => push("/sign-in")}>
 						Sign In
 					</Button>
 				)}
