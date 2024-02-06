@@ -9,7 +9,7 @@ import { toast } from "@/components/ui/use-toast";
 const LeftSideBar = () => {
 	const router = useRouter();
 	const pathname = usePathname();
-	const { userId } = useAuth();
+	const { isSignedIn, userId } = useAuth();
 	return (
 		<section className="custom-scrollbar leftsidebar">
 			<div className="flex w-full flex-1 flex-col gap-6 px-6">
@@ -22,7 +22,7 @@ const LeftSideBar = () => {
 					return (
 						<Link
 							key={index}
-							href={elm.route}
+							href={!isSignedIn && elm.label == "Profile" ? '/sign-in' : elm.route}
 							className={`leftsidebar_link ${isActive && "bg-primary-500"}`}>
 							<div className="relative">
 								<Image src={elm.imgURL} alt={elm.label} height={24} width={24} />
@@ -38,7 +38,7 @@ const LeftSideBar = () => {
 						signOutCallback={() => {
 							router.push("/");
 							toast({
-								title: "User loged-out"
+								title: "User loged-out",
 							});
 						}}>
 						<div className="flex cursor-pointer gap-4 p-4">
